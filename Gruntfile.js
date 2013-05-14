@@ -7,7 +7,7 @@ var tasks = {
 			stderr : true
 		},
 		docs    : {
-			command: "node_modules/jsdoc/jsdoc strings.js src/*.js -d docs -c etc/jsdoc.conf.json"
+			command: "./node_modules/jsdoc/jsdoc strings.js src/*.js -d docs -c etc/jsdoc.conf.json -t etc/doc-template"
 		}
 	}
 };

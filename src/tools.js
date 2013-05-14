@@ -6,17 +6,18 @@ var lang = require( "lodash" );
  * @author Terry Weiss
  * @copyright 2012 Eery Wrists Design. All rights reserved.
  * @license MIT (see LICENSE.txt)
- * @module ink/strings/tools
+ * @module ink/strings
  */
 /**
  * Creates a random string, in this case a UUID-like thingy. I call it a Uniquely Interesting ID. It is *not* globally unique
- * or even really unique. Just random and with a known format.
+ * or even really unique. Just random and with a known format. Also available as uiid
  *
  * @note {platform} If the platform is rhino and we have access to Java, this will make the call directly to the Java
  *       implentation. Since FireFox is a rhino platform, it means that that is behavior will appear on the browser as
  *       well. On all other platforms, you should note that the values are not globally unique and should only be used
  *       for temporary keys.
  * @returns {string}
+ * @method
  *
  */
 exports.tempKey = exports.uiid = function() {
@@ -24,6 +25,7 @@ exports.tempKey = exports.uiid = function() {
 		return Packages.java.util.UUID.randomUUID().toString();
 	} else {
 		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace( /[xy]/g, function( c ) {
+			//noinspection JSHint
 			var r = Math.random() * 16 | 0, v = c === 'x' ? r : ( r & 0x3 | 0x8 );
 			return v.toString( 16 );
 		} );

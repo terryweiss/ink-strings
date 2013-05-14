@@ -26,7 +26,7 @@
 var slice = [].slice;
 /**
  * @fileOverview The sprintf for js script from Alexandru Marasteanu at diveintojavascript.com
- * @module ink/strings/sprintf
+ * @module ink/strings
  * @license Redistribution and use in source and binary forms, with or without modification, are permitted provided that
  *          the following conditions are met: Redistributions of source code must retain the above copyright notice,
  *          this list of conditions and the following disclaimer. Redistributions in binary form must reproduce the
@@ -43,6 +43,7 @@ var slice = [].slice;
  *          POSSIBILITY OF SUCH DAMAGE.
  * @copyright Copyright (c) Alexandru Marasteanu <alexaholic [at) gmail (dot] com> All rights reserved.
  * @see http://www.diveintojavascript.com/projects/javascript-sprintf
+ *
  */
 var sprintf = ( function() {
 	function get_type( variable ) {
@@ -254,7 +255,7 @@ var vsprintf = function( fmt, argv ) {
  * 	users : users
  * } ); // Hello Dolly, Molly and Polly
  * </pre>
- *
+ * @method
  * @author Alexandru Marasteanu
  * @copyright Copyright (c) Alexandru Marasteanu <alexaholic [at) gmail (dot] com>. All rights reserved.
  * @note mixing positional and named placeholders is not (yet) supported
@@ -278,7 +279,9 @@ exports.sprintf = sprintf;
 /**
  * vsprintf() is the same as sprintf() except that it accepts an array of arguments, rather than a variable number of
  * arguments:
- *
+ * @method
+ * @author Alexandru Marasteanu
+ * @copyright Copyright (c) Alexandru Marasteanu <alexaholic [at) gmail (dot] com>. All rights reserved.
  * @param {string}
  *            fmt The format string
  * @param {array.<string>} argv The formatters

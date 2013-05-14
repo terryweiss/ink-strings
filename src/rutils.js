@@ -388,7 +388,7 @@ exports.escapeHtml = function ( string ) {
  *            order (ascending or descending)
  * @returns {Function} ready for use in Array.prototype.sort
  */
-exports.Sorter = function ( field, order ) {
+exports.sorter = function ( field, order ) {
 	if ( !order ) {
 		order = 1;
 	}

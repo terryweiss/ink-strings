@@ -17,7 +17,7 @@
  *          AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  *          OR OTHER DEALINGS IN THE SOFTWARE.
  * @note that this is only a subset of the original underscore string, only those items missing from rutils.js
- * @module ink/strings/under
+ * @module ink/strings
  */
 
 // Underscore.string
