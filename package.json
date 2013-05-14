@@ -1,0 +1,10 @@
+{
+  "name": "ink-strings",
+  "version": "0.0.0",
+  "devDependencies": {
+    "jsdoc": "git://github.com/jsdoc3/jsdoc.git"
+  },
+  "dependencies": {
+    "lodash": "~1.2.1"
+  }
+}

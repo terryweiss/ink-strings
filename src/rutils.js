@@ -493,6 +493,7 @@ exports.b16encode = function( str, encoding ) {
 
 	for ( var i = 0; i < length; i++ ) {
 		var n = input[ i ];
+		//noinspection JSHint
 		result.push( chars[ n >>> 4 ], chars[ n & 0xf ] );
 	}
 	return result.join( '' );
@@ -523,6 +524,7 @@ exports.b16decode = function( str, encoding ) {
 	for ( var i = 0; i < length; i++ ) {
 		var n1 = decodeChar( input[ i * 2 ] );
 		var n2 = decodeChar( input[ i * 2 + 1 ] );
+		//noinspection JSHint
 		output[ i ] = ( n1 << 4 ) + n2;
 	}
 	encoding = encoding || 'utf8';
