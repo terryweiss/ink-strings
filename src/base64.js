@@ -15,7 +15,7 @@
 // -- Terry Weiss
 /**
  * @fileOverview Base64 encoding and decoding for binary data and strings.
- * @module ink/strings/base64
+ * @module ink/strings
  * @copyright Copyright (C) 1999 Masanao Izumo <iz@onicos.co.jp>
  *
  */
@@ -95,6 +95,7 @@ exports.encode = function ( str, encoding ) {
  * @example
  *      strings.decode( "XDc3L1tdMDk4NzQzMmZnZnN1amRuZm9za3N1d20qJl4lJCNA" );
  *      -> '\\77/[]0987432fgfsujdnfosksuwm*&^%$#@'
+ *
  */
 exports.decode = function ( str, encoding ) {
 	var c1, c2, c3, c4;

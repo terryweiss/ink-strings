@@ -2,9 +2,10 @@
 /**
  * @fileoverview Binary, ByteArray and ByteString classes as defined in
  * [CommonJS Binary/B](http://wiki.commonjs.org/wiki/Binary/B).
- * @module ink/strings/binary
  * @copyright Copyright 2012 Hannes Wallnoefer <hannes@helma.at>
  * @license Apache
+ * @author Hannes Wallnoefer, Terry Weiss
+ * @module ink/strings
  */
 
 var encodings = {
@@ -101,7 +102,7 @@ ByteArray.prototype = new Binary();
 /**
  * Returns the length of the byte array
  * @returns {int}
- * @memberof module:ink/strings/binary.ByteArray
+ * @memberof module:ink/strings~ByteArray
  * @name length
  */
 Object.defineProperty( ByteArray.prototype, 'length', {
@@ -130,7 +131,6 @@ Object.defineProperty( ByteArray.prototype, 'length', {
  * @param {Binary|Array|String|Buffer} content the content of the ByteString.
  * @param {String} charset the encoding name if the first argument is a String.
  * @constructor
- * @inherits module:ink/strings/binary.Binary
  */
 var ByteString = exports.ByteString = function () {
 	if ( !(this instanceof ByteString) ) {
@@ -181,7 +181,7 @@ ByteString.prototype = new Binary();
 /**
  * Returns the length of the byte string
  * @returns {int}
- * @memberof module:ink/strings/binary.ByteString
+ * @memberof module:ink/strings~ByteString
  * @name length
  */
 Object.defineProperty( ByteString.prototype, 'length', {
@@ -235,7 +235,7 @@ ByteArray.prototype.reverse = function () {
 
 /**
  * Sorts the content of the ByteArray in-place.
- *
+ * @private
  * @param {Function} comparator the function to compare entries
  * @returns {ByteArray} this ByteArray with its elements sorted
  */

@@ -230,18 +230,18 @@ var vsprintf = function( fmt, argv ) {
  * argument, you can now refer to a certain key within an object. Replacement fields are surrounded by rounded
  * parentheses () and begin with a keyword that refers to a key:
  * </p>
- * 
+ *
  * <pre class="js">
  * var user = {
  * 	name : 'Dolly'
  * };
  * sprintf( 'Hello %(name)s', user ); // Hello Dolly
  * </pre>
- * 
+ *
  * <p>
  * Keywords in replacement fields can be optionally followed by any number of keywords or indexes:
  * </p>
- * 
+ *
  * <pre class="js">
  * var users = [ {
  * 	name : 'Dolly'
@@ -254,7 +254,7 @@ var vsprintf = function( fmt, argv ) {
  * 	users : users
  * } ); // Hello Dolly, Molly and Polly
  * </pre>
- * 
+ *
  * @author Alexandru Marasteanu
  * @copyright Copyright (c) Alexandru Marasteanu <alexaholic [at) gmail (dot] com>. All rights reserved.
  * @note mixing positional and named placeholders is not (yet) supported
@@ -278,11 +278,10 @@ exports.sprintf = sprintf;
 /**
  * vsprintf() is the same as sprintf() except that it accepts an array of arguments, rather than a variable number of
  * arguments:
- * 
+ *
  * @param {string}
  *            fmt The format string
- * @param {array.
- *            <string>}argv The formatters
+ * @param {array.<string>} argv The formatters
  * @returns {string}
  */
 exports.vsprintf = vsprintf;

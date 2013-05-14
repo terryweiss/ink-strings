@@ -89,12 +89,6 @@ exports.testStringsInsert = function ( test ) {
 	test.done();
 };
 
-exports.testStringsInclude = function ( test ) {
-	var test1 = "Dalek Caan";
-	test.strictEqual( strings.include( test1, "ek" ), true );
-	test.strictEqual( strings.include( test1, "doctor" ), false );
-	test.done();
-};
 
 exports.testStringsJoin = function ( test ) {
 	test.strictEqual( strings.join( ", ", "doc", "rory", "amy", "river" ), "doc, rory, amy, river" );
@@ -142,6 +136,7 @@ exports.testStringsTitleize = function ( test ) {
 
 exports.testStringsCamelize = function ( test ) {
 	test.strictEqual( strings.camelize( "the_doctor" ), "theDoctor" );
+	test.strictEqual( strings.camelize( "The doctor" ), "TheDoctor" );
 	test.done();
 };
 
@@ -235,6 +230,7 @@ exports.testStringsToSentence = function ( test ) {
 };
 
 exports.testStringsSlugify = function ( test ) {
+	//noinspection JSHint
 	test.strictEqual( strings.slugify( "Th� D�ctor" ), "th-dctor" ); // TODO: this
 	// looks
 	// wrong to
@@ -286,5 +282,117 @@ exports.isDateFormat = function ( test ) {
 
 	test.strictEqual( strings.isDateFormat( str1 ), false );
 	test.strictEqual( strings.isDateFormat( str2 ), true );
+	test.done();
+};
+
+exports.isUrl = function ( test ) {
+	var str1 = "fred is a great guy";
+	var str2 = "http://google.com";
+	var str3 = "http://google.com?val=fred";
+	var str4 = "ftp://home.com/terry/bashrc";
+	var str5 = "http:/google.com";
+
+	test.strictEqual( strings.isUrl( str1 ), false );
+	test.strictEqual( strings.isUrl( str2 ), true );
+	test.strictEqual( strings.isUrl( str3 ), true );
+	test.strictEqual( strings.isUrl( str4 ), true );
+	test.strictEqual( strings.isUrl( str5 ), false );
+	test.done();
+};
+
+exports.isHexColor = function ( test ) {
+	var str1 = "fred is a great guy";
+	var str2 = "#FF0000";
+	var str3 = "ABCDEF";
+	var str4 = "ABCDEF00";
+
+	test.strictEqual( strings.isHexColor( str1 ), false );
+	test.strictEqual( strings.isHexColor( str2 ), true );
+	test.strictEqual( strings.isHexColor( str3 ), true );
+	test.strictEqual( strings.isHexColor( str4 ), false );
+	test.done();
+};
+
+exports.toHexColor = function ( test ) {
+	var str1 = "rgb(255, 0, 0";
+	var str2 = "rgb(255, 254, 0";
+	test.strictEqual( strings.toHexColor( str1 ), "ff0000" );
+	test.strictEqual( strings.toHexColor( str2 ), "fffe00" );
+	test.done();
+};
+
+exports.isAlphanumeric = function ( test ) {
+	var str1 = "####*&&89A";
+	var str2 = "ABC5678";
+	test.strictEqual( strings.isAlphanumeric( str1 ), false );
+	test.strictEqual( strings.isAlphanumeric( str2 ), true );
+	test.done();
+};
+
+exports.toAlphanumeric = function ( test ) {
+	var str1 = "####*&&89A";
+	var str2 = "ABC5678";
+	test.strictEqual( strings.toAlphanumeric( str1 ), "89A" );
+	test.strictEqual( strings.toAlphanumeric( str2 ), str2 );
+	test.done();
+};
+
+exports.isAlpha = function ( test ) {
+	var str1 = "####*&&89A";
+	var str2 = "ABC5678";
+	var str3 = "ABCDEf";
+	test.strictEqual( strings.isAlpha( str1 ), false );
+	test.strictEqual( strings.isAlpha( str2 ), false );
+	test.strictEqual( strings.isAlpha( str3 ), true );
+	test.done();
+};
+
+exports.isNumeric = function ( test ) {
+	var str1 = "####*&&89A";
+	var str2 = "ABC5678";
+	var str3 = "12345";
+	test.strictEqual( strings.isNumeric( str1 ), false );
+	test.strictEqual( strings.isNumeric( str2 ), false );
+	test.strictEqual( strings.isNumeric( str3 ), true );
+	test.done();
+};
+
+exports.entitize = function ( test ) {
+	var str1 = "test me";
+
+	test.strictEqual( strings.entitize( str1 ), "&#116;&#101;&#115;&#116;&#32;&#109;&#101;" );
+	test.done();
+};
+
+exports.group = function ( test ) {
+	var str1 = "Madame Vastra wears a veil";
+	test.strictEqual( strings.group( str1, 3, ":)" ), "Mad:)ame:) Va:)str:)a w:)ear:)s a:) ve:)il:)" );
+	test.done();
+};
+
+exports.unwrap = function ( test ) {
+	var str = "The Doctor <br/>has a cool\n bowtie";
+	test.strictEqual( strings.unwrap( str ), "The Doctor <br/>has a cool bowtie" );
+	test.strictEqual( strings.unwrap( str, true ), "The Doctor has a cool bowtie" );
+	test.done();
+};
+
+exports.contains = function ( test ) {
+	test.strictEqual( strings.contains( "Chocolate Fudge", "Fudge" ), true );
+	test.done();
+};
+
+exports.getCommonPrefix = function ( test ) {
+	test.strictEqual( strings.getCommonPrefix( "Chocolate Fudge", "Choco Mocha" ), "Choco" );
+	test.strictEqual( strings.getCommonPrefix( "Chocolate Fudge", "cocoa" ), "" );
+
+	test.done();
+};
+
+exports.isEmail = function ( test ) {
+	test.strictEqual( strings.isEmail( "me@terryweiss.net" ), true );
+
+	test.strictEqual( strings.isEmail( "me@terryweiss" ), false );
+	test.strictEqual( strings.isEmail( "me(at)terryweiss.net" ), false );
 	test.done();
 };

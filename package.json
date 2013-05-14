@@ -2,7 +2,9 @@
   "name": "ink-strings",
   "version": "0.1.0",
   "devDependencies": {
-    "jsdoc": "git://github.com/jsdoc3/jsdoc.git"
+    "jsdoc": "git://github.com/jsdoc3/jsdoc.git",
+    "grunt": "~0.4.1",
+    "grunt-shell": "~0.2.2"
   },
   "dependencies": {
     "lodash": "~1.2.1"

@@ -166,6 +166,7 @@ exports.unescapeHTML = function ( str ) {
  */
 exports.splice = function ( str, i, howmany, substr ) {
 	var arr = exports.chars( str );
+	//noinspection JSHint
 	arr.splice( ~~i, ~~howmany, substr );
 	return arr.join( '' );
 };
@@ -184,24 +185,7 @@ exports.insert = function ( str, i, substr ) {
 	return exports.splice( str, i, 0, substr );
 };
 
-/**
- * Is one string included in another
- *
- * @param {string}
- *            str The string to test
- * @param {string}
- *            needle The string to test for
- * @returns {Boolean}
- */
-exports.include = function ( str, needle ) {
-	if ( needle === '' ) {
-		return true;
-	}
-	if ( sys.isNull( str ) ) {
-		return false;
-	}
-	return String( str ).indexOf( needle ) !== -1;
-};
+
 
 /**
  * Splits a string with <code>\n</code> new line markers into one string per line as an array.
@@ -243,18 +227,7 @@ exports.succ = function ( str ) {
 	return str.slice( 0, -1 ) + String.fromCharCode( str.charCodeAt( str.length - 1 ) + 1 );
 };
 
-/**
- * Converts underscored or dasherized string to a camelized one
- *
- * @param {string}
- *            str The string to convert
- * @returns {string}
- */
-exports.camelize = function ( str ) {
-	return exports.trim( str ).replace( /[-_\s]+(.)?/g, function ( match, c ) {
-		return c.toUpperCase();
-	} );
-};
+
 /**
  * Converts a camelized or dasherized string into an underscored one
  *
