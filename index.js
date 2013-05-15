@@ -4,10 +4,8 @@
 
  * @author Terry Weiss
  * @module ink/strings
- * @license MIT (see terryweiss.net/ink/license.txt)
+ * @license MIT (see LICENSE.md)
  * @copyright Copyright &copy; 2011-2012 Terry Weiss. All rights reserved
- * @borrows ink/strings/base64#encode
- * @borrows ink/strings/base64#decode
  */
 
 var sys = require("lodash");

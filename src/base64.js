@@ -1,23 +1,13 @@
 "use strict";
-/* Copyright (C) 1999 Masanao Izumo <iz@onicos.co.jp>
- * Version: 1.0
- * LastModified: Dec 25 1999
- * This library is free.  You can redistribute it and/or modify it.
- */
-
-// -- Mansano Izumo Copyright 1999 "free"
-// modified to add support for Binary for Narwhal:
-// -- kriskowal Kris Kowal Copyright (C) 2009-2010 MIT License
-// -- cadorn Christoph Dorn
-// modified to make better use of binary module
-// -- hannesw Hannes Wallnoefer
-// Modified to make it nodejs friendly, pass jshint
-// -- Terry Weiss
 /**
  * @fileOverview Base64 encoding and decoding for binary data and strings.
- * @module ink/strings
+ * @module ink/strings/base64
  * @copyright Copyright (C) 1999 Masanao Izumo <iz@onicos.co.jp>
- *
+ * @author Masanao Izumo <iz@onicos.co.jp>
+ * @author Kris Kowal
+ * @author Christoph Dorn
+ * @author Hannes Wallnoefer
+ * @author Terry Weiss
  */
 
 var encodeChars = [
@@ -26,24 +16,26 @@ var decodeChars = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -
 
 var padding = "=".charCodeAt( 0 );
 
-var Binary = require( './binary' ).Binary;
-var ByteString = require( './binary' ).ByteString;
-var ByteArray = require( './binary' ).ByteArray;
+var binary = require( './binary' );
+var Binary = binary.Binary;
+var ByteString = binary.ByteString;
+var ByteArray = binary.ByteArray;
 
 /**
  * Encode a string or binary to a Base64 encoded string
- * @param {String|Binary} str a string or binary
- * @param {String} encoding optional encoding to use if
- *     first argument is a string. Defaults to 'utf8'.
- * @returns the Base64 encoded string
+ * @param {String|Binary} str A string or binary object to encode
+ * @param {String=} encoding Encoding to use if
+ *     first argument is a string. Defaults to 'utf8'. Valid values are 'utf8', 'ascii' and 'ucs2'.
+ * @returns {string} The Base64 encoded string
  * @example
+ *      strings = require("ink-strings");
  *      strings.encode( "\\77/[]0987432fgfsujdnfosksuwm*&^%$#@" )
  *      ->'XDc3L1tdMDk4NzQzMmZnZnN1amRuZm9za3N1d20qJl4lJCNA'
  */
 exports.encode = function ( str, encoding ) {
 	var c1, c2, c3;
 	encoding = encoding || 'utf8';
-	var input = str instanceof Binary ? str : ByteString.toByteString( str, encoding );
+	var input = str instanceof Binary ? str : binary.toByteString( str, encoding );
 	var length = input.length;
 	var output = new ByteArray( 4 * (length + (3 - length % 3) % 3) / 3 );
 
@@ -72,7 +64,7 @@ exports.encode = function ( str, encoding ) {
 			break;
 		}
 		c3 = input.buffer[i++];
-//noinspection JSHint
+		//noinspection JSHint
 		output.buffer[j++] = encodeChars[c1 >> 2];
 		//noinspection JSHint
 		output.buffer[j++] = encodeChars[((c1 & 0x3) << 4) | ((c2 & 0xF0) >> 4)];
@@ -89,17 +81,18 @@ exports.encode = function ( str, encoding ) {
 /**
  * Decodes a Base64 encoded string to a string or byte array.
  * @param {String} str the Base64 encoded string
- * @param {String} encoding the encoding to use for the return value.
- *     Defaults to 'utf8'. Use 'raw' to get a ByteArray instead of a string.
- * @returns the decoded string or ByteArray
+ * @param {String=} encoding the encoding to use for the return value.
+ *     Defaults to 'utf8'. Use 'raw' to get a ByteArray instead of a string. Other valid values are 'utf8', 'ascii' and 'ucs2'.
+ * @returns {string|ByteArray} The decoded string or ByteArray
  * @example
+ *      strings = require("ink-strings");
  *      strings.decode( "XDc3L1tdMDk4NzQzMmZnZnN1amRuZm9za3N1d20qJl4lJCNA" );
  *      -> '\\77/[]0987432fgfsujdnfosksuwm*&^%$#@'
  *
  */
 exports.decode = function ( str, encoding ) {
 	var c1, c2, c3, c4;
-	var input = str instanceof Binary ? str : ByteString.toByteString( str, 'ascii' );
+	var input = str instanceof Binary ? str : binary.toByteString( str, 'ascii' );
 	var length = input.length;
 	var output = new ByteArray( length * 3 / 4 );
 	var i = 0,
@@ -115,7 +108,7 @@ exports.decode = function ( str, encoding ) {
 
 		/* c2 */
 		do {
-			c2 = decodeChars[input.buffer[i++]] ;
+			c2 = decodeChars[input.buffer[i++]];
 		} while ( i < length && c2 === -1 );
 
 		if ( c2 === -1 ) {

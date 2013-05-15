@@ -1,5 +1,5 @@
 "use strict";
-var strings = require( "../strings" );
+var strings = require( "../index" );
 var assert = require( "assert" );
 var sys = require( "lodash" );
 

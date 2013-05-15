@@ -1,23 +1,34 @@
 "use strict";
 /**
  * @fileoverview Binary, ByteArray and ByteString classes as defined in
- * [CommonJS Binary/B](http://wiki.commonjs.org/wiki/Binary/B).
+ * [CommonJS Binary/B](http://wiki.commonjs.org/wiki/Binary/B). This file is included in ink-strings
+ * primarily to support the base64 encoding methods in {@link module:ink/strings/base64}. But they are still a valuable
+ * set of tools if you need 'em.
  * @copyright Copyright 2012 Hannes Wallnoefer <hannes@helma.at>
  * @license Apache
- * @author Hannes Wallnoefer, Terry Weiss
- * @module ink/strings
+ * @author Hannes Wallnoefer <hannes@helma.at>
+ * @author Terry Weiss <me@terryweiss.net>
+ * @module ink/strings/binary
  */
 
-var encodings = {
+/**
+ * The valid set of encoding supported by this library
+ * @dict
+ * @property {string} US-ASCII 'ascii'
+ * @property {string} UTF-8 'utf8'
+ * @property {string} ISO-10646-UCS-2 'ucs2'
+ */
+var encodings = exports.encodings = {
 	'US-ASCII'        : 'ascii',
 	'UTF-8'           : 'utf8',
 	'ISO-10646-UCS-2' : 'ucs2'
 };
 
 /**
- * Abstract base class for ByteArray and ByteString
+ * Abstract base class for {@link ByteArray} and {@link ByteString}
  *
  * @constructor
+ * @abstract
  */
 var Binary = exports.Binary = function () {};
 
@@ -32,17 +43,18 @@ var Binary = exports.Binary = function () {};
  * String's encoding. If called without arguments, an empty ByteArray is
  * returned.
  *
- * The constructor also accepts a <a
- * href="http://nodejs.org/docs/v0.4.8/api/buffers.html#buffers">Node.js Buffer</a>.
+ * The constructor also accepts a
+ * [Node.js Buffer](http://nodejs.org/api/buffer.html).
  *
  * Also, if you pass in Number as the first argument and "false" as the second,
  * then the newly created array will not be cleared.
  *
- * @param {Binary|Array|String|Number|Buffer} contentOrLength content or length
+ * @param {Binary|Array|String|Number|Buffer} contentOrLength Content or length
  * of the ByteArray.
- * @param {String} [charset] the encoding name if the first argument is a
+ * @param {String=} charset The encoding name if the first argument is a
  * String.
  * @constructor
+ * @augments module:ink/strings/binary~Binary
  */
 var ByteArray = exports.ByteArray = function () {
 	if ( !(this instanceof ByteArray) ) {
@@ -99,12 +111,7 @@ var ByteArray = exports.ByteArray = function () {
 
 ByteArray.prototype = new Binary();
 
-/**
- * Returns the length of the byte array
- * @returns {int}
- * @memberof module:ink/strings~ByteArray
- * @name length
- */
+
 Object.defineProperty( ByteArray.prototype, 'length', {
 	get : function () {
 		return this.buffer.length;
@@ -125,12 +132,13 @@ Object.defineProperty( ByteArray.prototype, 'length', {
  * containing the name of the String's encoding. If called without arguments, an
  * empty ByteString is returned.
  *
- * The constructor also accepts a <a
- * href="http://nodejs.org/docs/v0.4.8/api/buffers.html#buffers">Node.js Buffer</a>.
+ * The constructor also accepts a
+ * [Node.js Buffer](http://nodejs.org/api/buffer.html).
  *
- * @param {Binary|Array|String|Buffer} content the content of the ByteString.
- * @param {String} charset the encoding name if the first argument is a String.
+ * @param {Binary|Array|String|Buffer} content The content of the ByteString.
+ * @param {String=} charset The encoding name if the first argument is a String.
  * @constructor
+ * @augments module:ink/strings/binary~Binary
  */
 var ByteString = exports.ByteString = function () {
 	if ( !(this instanceof ByteString) ) {
@@ -180,7 +188,7 @@ ByteString.prototype = new Binary();
 
 /**
  * Returns the length of the byte string
- * @returns {int}
+ * @type {integer}
  * @memberof module:ink/strings~ByteString
  * @name length
  */
@@ -195,9 +203,9 @@ Object.defineProperty( ByteString.prototype, 'length', {
  * Converts the String to a mutable ByteArray using the specified encoding.
  * @param {string} str The string to convert
  * @param {String} charset the name of the string encoding. Defaults to 'UTF-8'
- * @returns a ByteArray representing the string
+ * @returns {ByteArray} a ByteArray representing the string
  */
-ByteString.toByteArray = function ( str, charset ) {
+exports.toByteArray = function ( str, charset ) {
 	charset = charset || 'UTF-8';
 	return new ByteArray( String( str ), charset );
 };
@@ -206,9 +214,9 @@ ByteString.toByteArray = function ( str, charset ) {
  * Converts the String to an immutable ByteString using the specified encoding.
  * @param {string} str The string to convert
  * @param {String} charset the name of the string encoding. Defaults to 'UTF-8'
- * @returns a ByteArray representing the string
+ * @returns {ByteString} a ByteString representing the string
  */
-ByteString.toByteString = function ( str, charset ) {
+exports.toByteString = function ( str, charset ) {
 	charset = charset || 'UTF-8';
 	return new ByteString( String( str ), charset );
 };
@@ -243,7 +251,13 @@ var numericCompareFunction = function ( o1, o2 ) {
 	return o1 - o2;
 };
 
-// sort([compareFunction])
+/**
+ * Sorts a ByteArray.
+ * @param {function(byte)=} compareFunction A function to be executed against each element in the ByteArray
+ *      If not present, the bytes are compared numerically. Otherwise
+ *      it works like a regular JS array sorter
+ *
+ */
 ByteArray.prototype.sort = function ( compareFunction ) {
 	// TODO: inefficient, optimize
 	var array = this.toArray();
@@ -257,8 +271,8 @@ ByteArray.prototype.sort = function ( compareFunction ) {
 /**
  * Apply a function for each element in the ByteArray.
  *
- * @param {Function} fn the function to call for each element
- * @param {Object} thisObj optional this-object for callback
+ * @param {function(byte)} fn the function to call for each element
+ * @param {Object=} thisObj optional this-object for callback
  */
 ByteArray.prototype.forEach = function ( callback, thisObject ) {
 	for ( var i = 0, length = this.length; i < length; i++ ) {callback.apply( thisObject, [this.get( i ), i, this] );}
@@ -268,8 +282,8 @@ ByteArray.prototype.forEach = function ( callback, thisObject ) {
  * Return a ByteArray containing the elements of this ByteArray for which the
  * callback function returns true.
  *
- * @param {Function} callback the filter function
- * @param {Object} thisObj optional this-object for callback
+ * @param {function(byte)} callback the filter function
+ * @param {Object=} thisObj optional this-object for callback
  * @returns {ByteArray} a new ByteArray
  */
 ByteArray.prototype.filter = function ( callback, thisObject ) {
@@ -285,8 +299,8 @@ ByteArray.prototype.filter = function ( callback, thisObject ) {
  * Tests whether some element in the array passes the test implemented by the
  * provided function.
  *
- * @param {Function} callback the callback function
- * @param {Object} thisObj optional this-object for callback
+ * @param {function(byte)} callback the callback function
+ * @param {Object=} thisObj optional this-object for callback
  * @returns {Boolean} true if at least one invocation of callback returns true
  */
 ByteArray.prototype.some = function ( callback, thisObject ) {
@@ -298,8 +312,8 @@ ByteArray.prototype.some = function ( callback, thisObject ) {
  * Tests whether all elements in the array pass the test implemented by the
  * provided function.
  *
- * @param {Function} callback the callback function
- * @param {Object} thisObj optional this-object for callback
+ * @param {function(byte)} callback the callback function
+ * @param {Object=} thisObj optional this-object for callback
  * @returns {Boolean} true if every invocation of callback returns true
  */
 ByteArray.prototype.every = function ( callback, thisObject ) {
@@ -311,8 +325,8 @@ ByteArray.prototype.every = function ( callback, thisObject ) {
  * Returns a new ByteArray whose content is the result of calling the provided
  * function with every element of the original ByteArray
  *
- * @param {Function} callback the callback
- * @param {Object} thisObj optional this-object for callback
+ * @param {function(byte)} callback the callback
+ * @param {Object=} thisObj optional this-object for callback
  * @returns {ByteArray} a new ByteArray
  */
 ByteArray.prototype.map = function ( callback, thisObject ) {
@@ -325,11 +339,11 @@ ByteArray.prototype.map = function ( callback, thisObject ) {
  * Apply a function to each element in this ByteArray as to reduce its content
  * to a single value.
  *
- * @param {Function} callback the function to call with each element of the
+ * @param {function(byte)} callback the function to call with each element of the
  * ByteArray
- * @param initialValue optional argument to be used as the first argument to the
+ * @param {*=} initialValue optional argument to be used as the first argument to the
  * first call to the callback
- * @returns the return value of the last callback invocation
+ * @returns {*} the return value of the last callback invocation
  * @see https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Global_Objects/Array/reduce
  */
 ByteArray.prototype.reduce = function ( callback, initialValue ) {
@@ -342,11 +356,11 @@ ByteArray.prototype.reduce = function ( callback, initialValue ) {
  * Apply a function to each element in this ByteArray starting at the last
  * element as to reduce its content to a single value.
  *
- * @param {Function} callback the function to call with each element of the
+ * @param {function(byte)} callback the function to call with each element of the
  * ByteArray
- * @param initialValue optional argument to be used as the first argument to the
+ * @param {*=} initialValue optional argument to be used as the first argument to the
  * first call to the callback
- * @returns the return value of the last callback invocation
+ * @returns {*} the return value of the last callback invocation
  * @see ByteArray.prototype.reduce
  * @see https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Global_Objects/Array/reduceRight
  */
@@ -376,7 +390,7 @@ ByteArray.prototype.pop = function () {
 /**
  * Appends the given elements and returns the new length of the array.
  *
- * @param {Number} num... one or more numbers to append
+ * @param {...Number} num... one or more numbers to append
  * @returns {Number} the new length of the ByteArray
  */
 ByteArray.prototype.push = function () {
@@ -409,7 +423,7 @@ ByteArray.prototype.shift = function () {
  * Adds one or more elements to the beginning of the ByteArray and returns its
  * new length.
  *
- * @param {Number} num... one or more numbers to append
+ * @param {...Number} num... one or more numbers to append
  * @returns {Number} the new length of the ByteArray
  */
 ByteArray.prototype.unshift = function () {
@@ -433,7 +447,7 @@ ByteArray.prototype.unshift = function () {
  * @param {Number} index the index at which to start changing the ByteArray
  * @param {Number} howMany The number of elements to remove at the given
  * position
- * @param {Number} elements... the new elements to add at the given position
+ * @param {...Number} elements... the new elements to add at the given position
  */
 ByteArray.prototype.splice = function ( index, howMany ) {
 	if ( index === undefined ) {return;}
@@ -485,8 +499,6 @@ ByteArray.prototype.copy = function ( start, end, target, targetOffset ) {
  * offset from the end of the sequence. If end is omitted, slice extracts to the
  * end of the sequence.
  * @returns {ByteArray} a new ByteArray
- * @name ByteArray.prototype.slice
- * @function
  */
 ByteArray.prototype.slice = function () {
 	return new ByteArray( ByteString.prototype.slice.apply( this, arguments ) );
@@ -498,8 +510,6 @@ ByteArray.prototype.slice = function () {
  *
  * @param {Binary|Array} arg... one or more elements to concatenate
  * @returns {ByteArray} a new ByteArray
- * @name ByteArray.prototype.concat
- * @function
  */
 ByteArray.prototype.concat = function () {
 	var components = [this],
@@ -529,16 +539,16 @@ ByteArray.prototype.concat = function () {
 };
 
 /**
- * @name ByteArray.prototype.toByteArray
- * @function
+ * Returns a ByteArray
+ * @return {ByteArray}
  */
 ByteArray.prototype.toByteArray = function () {
 	return new ByteArray( this.buffer );
 };
 
 /**
- * @name ByteArray.prototype.toByteString
- * @function
+ *Returns a ByteString
+ * @return {ByteString}
  */
 ByteArray.prototype.toByteString = function () {
 	return new ByteString( this.buffer );
@@ -549,13 +559,14 @@ ByteArray.prototype.toByteString = function () {
  *
  * @name ByteArray.prototype.toArray
  * @function
+ * @returns {array.<byte>}
  */
 
 /**
  * Returns a String representation of the ByteArray.
  *
- * @name ByteArray.prototype.toString
- * @function
+ * @param {string=} charset The charset to use to create the string
+@return {string}
  */
 ByteArray.prototype.toString = function ( charset ) {
 	if ( charset ) {return this.decodeToString( charset );}
@@ -569,6 +580,7 @@ ByteArray.prototype.toString = function ( charset ) {
  * @param {String} encoding the name of the encoding to use
  * @name ByteArray.prototype.decodeToString
  * @function
+ * @return {String}
  */
 
 /**
@@ -583,6 +595,7 @@ ByteArray.prototype.toString = function ( charset ) {
  * @returns {Number} the index of the first occurrence of sequence, or -1
  * @name ByteArray.prototype.indexOf
  * @function
+ *
  */
 
 /**
@@ -613,8 +626,7 @@ ByteArray.prototype.toString = function ( charset ) {
  * <li>includeDelimiter - Whether the delimiter should be included in the
  * result.</li>
  * </ul>
- * @name ByteArray.prototype.split
- * @function
+@return {array.<ByteArray>}
  */
 ByteArray.prototype.split = function () {
 	var components = ByteString.prototype.split.apply( this.toByteString(), arguments );
@@ -631,8 +643,7 @@ ByteArray.prototype.split = function () {
  * Returns a byte for byte copy of this immutable ByteString as a mutable
  * ByteArray.
  *
- * @name ByteString.prototype.toByteArray
- * @function
+@return {ByteArray}
  */
 ByteString.prototype.toByteArray = function () {
 	return new ByteArray( this );
@@ -641,8 +652,7 @@ ByteString.prototype.toByteArray = function () {
 /**
  * Returns this ByteString itself.
  *
- * @name ByteString.prototype.toByteString
- * @function
+ @return {ByteString}
  */
 ByteString.prototype.toByteString = function () {
 	return this;
@@ -650,10 +660,9 @@ ByteString.prototype.toByteString = function () {
 
 /**
  * Returns an array containing the bytes as numbers.
- *
- * @name ByteString.prototype.toArray
+
  * @param {String} charset optional the name of the string encoding
- * @function
+ * @return {array}
  */
 Binary.prototype.toArray = function ( charset ) {
 	if ( charset ) {
@@ -669,8 +678,7 @@ Binary.prototype.toArray = function ( charset ) {
  * Returns a debug representation such as `"[ByteString 10]"` where 10 is the
  * length of this ByteString.
  *
- * @name ByteString.prototype.toString
- * @function
+ @return {string}
  */
 ByteString.prototype.toString = function () {
 	return '[ByteString ' + this.buffer.length + ']';
@@ -680,8 +688,8 @@ ByteString.prototype.toString = function () {
  * Returns this ByteString as string, decoded using the given charset.
  *
  * @name ByteString.prototype.decodeToString
- * @param {String} charset the name of the string encoding
- * @function
+ * @param {String=} charset the name of the string encoding
+    @return {string}
  */
 Binary.prototype.decodeToString = function ( charset ) {
 	return this.buffer.toString( encodings[charset] );
@@ -697,8 +705,7 @@ Binary.prototype.decodeToString = function ( charset ) {
  * @param {Number} start optional index position at which to start searching
  * @param {Number} stop optional index position at which to stop searching
  * @returns {Number} the index of the first occurrence of sequence, or -1
- * @name ByteString.prototype.indexOf
- * @function
+
  */
 Binary.prototype.indexOf = function ( byteValue, start, stop ) {
 	// HACK: use ByteString's slice since we know we won't be modifying result
@@ -717,8 +724,7 @@ Binary.prototype.indexOf = function ( byteValue, start, stop ) {
  * @param {Number} start optional index position at which to start searching
  * @param {Number} stop optional index position at which to stop searching
  * @returns {Number} the index of the last occurrence of sequence, or -1
- * @name ByteString.prototype.lastIndexOf
- * @function
+
  */
 Binary.prototype.lastIndexOf = function ( byteValue, start, stop ) {
 	// HACK: use ByteString's slice since we know we won't be modifying result
@@ -730,24 +736,23 @@ Binary.prototype.lastIndexOf = function ( byteValue, start, stop ) {
 /**
  * Returns the byte at the given offset as a ByteString.
  *
- * @name ByteString.prototype.byteAt
+
  * @param {Number} offset
  * @returns {Number}
- * @function
+   @function
  */
 ByteString.prototype.byteAt = ByteString.prototype.charAt = function ( offset ) {
 	if ( offset < 0 || offset >= this.buffer.length ) {return new ByteString();}
 	return new ByteString( [this.buffer[offset]] );
 };
 
-
 /**
  * Returns the byte at the given offset as a ByteString.
  *
- * @name ByteArray.prototype.byteAt
+
  * @param {Number} offset
  * @returns {Number}
- * @function
+ @method
  */
 ByteArray.prototype.byteAt = function ( offset ) {
 	if ( offset < 0 || offset >= this.buffer.length ) {return new ByteArray();}
@@ -757,10 +762,10 @@ ByteArray.prototype.byteAt = function ( offset ) {
 /**
  * Returns the byte at the given offset.
  *
- * @name ByteString.prototype.get
+
  * @param {Number} offset
  * @returns {ByteString}
- * @function
+    @method
  */
 Binary.prototype.get = ByteString.prototype.charCodeAt = function ( offset ) {
 	return this.buffer[offset];
@@ -778,8 +783,7 @@ ByteArray.prototype.set = function ( offset, value ) {
  * @param {Number} end
  * @param {ByteArray} target
  * @param {Number} targetStart
- * @name ByteString.prototype.copy
- * @function
+
  */
 ByteString.prototype.copy = function ( start, end, target, targetOffset ) {
 	//TODO validate parameters
@@ -801,8 +805,7 @@ ByteString.prototype.copy = function ( start, end, target, targetOffset ) {
  * <li>includeDelimiter - Whether the delimiter should be included in the
  * result.</li>
  * </ul>
- * @name ByteString.prototype.split
- * @function
+@return {array}
  */
 ByteString.prototype.split = function ( delimiters, options ) {
 	// taken from https://github.com/kriskowal/narwhal-lib/
@@ -875,8 +878,7 @@ ByteString.prototype.split = function ( delimiters, options ) {
  * offset from the end of the sequence. If end is omitted, slice extracts to the
  * end of the sequence.
  * @returns {ByteString} a new ByteString
- * @name ByteString.prototype.slice
- * @function
+
  */
 ByteString.prototype.slice = function ( begin, end ) {
 	if ( !begin || typeof begin !== "number" ) {begin = 0;}
@@ -900,8 +902,7 @@ ByteString.prototype.slice = function ( begin, end ) {
  *
  * @param {Binary|Array} arg... one or more elements to concatenate
  * @returns {ByteString} a new ByteString
- * @name ByteString.prototype.concat
- * @function
+
  */
 ByteString.prototype.concat = function ( arg ) {
 	var components = [this],
