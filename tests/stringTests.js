@@ -89,7 +89,6 @@ exports.testStringsInsert = function ( test ) {
 	test.done();
 };
 
-
 exports.testStringsJoin = function ( test ) {
 	test.strictEqual( strings.join( ", ", "doc", "rory", "amy", "river" ), "doc, rory, amy, river" );
 	test.done();
@@ -183,11 +182,6 @@ exports.testStringsPads = function ( test ) {
 	test.strictEqual( strings.pad( "the", 6, "1" ), "111the" );
 	test.strictEqual( strings.rpad( "the", 6, "1" ), "the111" );
 	test.strictEqual( strings.lrpad( "the", 6, "1" ), "11the1" );
-	test.done();
-};
-
-exports.testStringsNumberFormat = function ( test ) {
-	test.strictEqual( strings.numberFormat( 4123355.22223, 2, "^", "#" ), "4#123#355^22" );
 	test.done();
 };
 
@@ -314,8 +308,8 @@ exports.isHexColor = function ( test ) {
 };
 
 exports.toHexColor = function ( test ) {
-	var str1 = "rgb(255, 0, 0";
-	var str2 = "rgb(255, 254, 0";
+	var str1 = "rgb(255, 0, 0)";
+	var str2 = "rgb(255, 254, 0)";
 	test.strictEqual( strings.toHexColor( str1 ), "ff0000" );
 	test.strictEqual( strings.toHexColor( str2 ), "fffe00" );
 	test.done();

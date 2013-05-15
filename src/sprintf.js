@@ -1,32 +1,8 @@
 "use strict";
-/*
- * ! sprintf() for JavaScript 0.7-beta1 http://www.diveintojavascript.com/projects/javascript-sprintf Copyright (c)
- * Alexandru Marasteanu <alexaholic [at) gmail (dot] com> All rights reserved. Redistribution and use in source and
- * binary forms, with or without modification, are permitted provided that the following conditions are met:
- * Redistributions of source code must retain the above copyright notice, this list of conditions and the following
- * disclaimer. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
- * following disclaimer in the documentation and/or other materials provided with the distribution. Neither the name of
- * sprintf() for JavaScript nor the names of its contributors may be used to endorse or promote products derived from
- * this software without specific prior written permission. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
- * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL Alexandru Marasteanu BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
- * AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. Changelog:
- * 2010.09.06 - 0.7-beta1 - features: vsprintf, support for named placeholders - enhancements: format cache, reduced
- * global namespace pollution 2010.05.22 - 0.6: - reverted to 0.4 and fixed the bug regarding the sign of the number 0
- * Note: Thanks to Raphael Pigulla <raph (at] n3rd [dot) org> (http://www.n3rd.org/) who warned me about a bug in 0.5, I
- * discovered that the last update was a regress. I appologize for that. 2010.05.09 - 0.5: - bug fix: 0 is now preceeded
- * with a + sign - bug fix: the sign was not at the right position on padded results (Kamal Abdali) - switched from GPL
- * to BSD license 2007.10.21 - 0.4: - unit test and patch (David Baird) 2007.09.17 - 0.3: - bug fix: no longer throws
- * exception on empty paramenters (Hans Pufal) 2007.09.11 - 0.2: - feature: added argument swapping 2007.04.03 - 0.1: -
- * initial release
- */
 var slice = [].slice;
 /**
  * @fileOverview The sprintf for js script from Alexandru Marasteanu at diveintojavascript.com
- * @module ink/strings
+ * @module ink/strings/sprintf
  * @license Redistribution and use in source and binary forms, with or without modification, are permitted provided that
  *          the following conditions are met: Redistributions of source code must retain the above copyright notice,
  *          this list of conditions and the following disclaimer. Redistributions in binary form must reproduce the
@@ -43,6 +19,7 @@ var slice = [].slice;
  *          POSSIBILITY OF SUCH DAMAGE.
  * @copyright Copyright (c) Alexandru Marasteanu <alexaholic [at) gmail (dot] com> All rights reserved.
  * @see http://www.diveintojavascript.com/projects/javascript-sprintf
+ * @author Alexandru Marasteanu <hello at alexei dot ro>
  *
  */
 var sprintf = ( function() {
@@ -53,6 +30,7 @@ var sprintf = ( function() {
 	function str_repeat( input, multiplier ) {
 		for ( var output = []; multiplier > 0; output[ --multiplier ] = input ) {/* do nothing */
 		}
+		//noinspection JSHint
 		return output.join( '' );
 	}
 
@@ -160,6 +138,7 @@ var sprintf = ( function() {
 						match[ 2 ] = field_list;
 					}
 				} else {
+					//noinspection JSHint
 					arg_names |= 2;
 				}
 				if ( arg_names === 3 ) { throw ( '[sprintf] mixing positional and named placeholders is not (yet) supported' ); }
@@ -182,79 +161,74 @@ var vsprintf = function( fmt, argv ) {
 /**
  * sprintf() for JavaScript 0.7-beta1 sprintf() for JavaScript is a complete open source JavaScript sprintf
  * implementation.
- * <p>
+ *
  * It's prototype is simple:
- * </p>
- * <code>string sprintf(string format , [mixed arg1 [, mixed arg2 [ ,...]]]);</code> The
- * <p>
- * placeholders in the format string are marked by "%" and are followed by one or more of these elements, in this order:
- * </p>
- * <ul>
- * <li> An optional "+" sign that forces to preceed the result with a plus or minus sign on numeric values. By default,
- * only the "-" sign is used on negative numbers.</li>
- * <li>An optional padding specifier that says what character to use for padding (if specified). Possible values are 0
- * or any other character</li>
- * precedeed by a '. The default is to pad with spaces.</li>
- * <li>An optional "-" sign, that causes sprintf to left-align the result of this placeholder. The default is to
- * right-align the result.</li>
- * <li>An optional number, that says how many characters the result should have. If the value to be returned is shorter
- * than this number, the result will be padded.</li>
- * <li>An optional precision modifier, consisting of a "." (dot) followed by a number, that says how many digits should
- * be displayed for floating point numbers. When used on a string, it causes the result to be truncated.</li>
- * <li>A type specifier that can be any of:
- * <ul>
- * <li>
- * <li>% — print a literal "%" character</li>
- * <li>b — print an integer as a binary number</li>
- * <li>c — print an integer as the character with that ASCII value</li>
- * <li>d — print an integer as a signed decimal number</li>
- * <li>e — print a float as scientific notation</li>
- * <li>u — print an integer as an unsigned decimal number</li>
- * <li>f — print a float as is</li>
- * <li>o — print an integer as an octal number</li>
- * <li>s — print a string as is</li>
- * <li>x — print an integer as a hexadecimal number (lower-case)</li>
- * <li>X — print an integer as a hexadecimal number (upper-case)</li>
- * </li>
- * </ul>
- * </ul>
- * <p>
+ *
+ *      string sprintf(string format , [mixed arg1 [, mixed arg2 [ ,...]]]);
+ *
+ * The placeholders in the format string are marked by "%" and are followed by one or more of these elements, in this order:
+ *
+ * + An optional "+" sign that forces to preceed the result with a plus or minus sign on numeric values. By default,
+ * only the "-" sign is used on negative numbers.
+ * + An optional padding specifier that says what character to use for padding (if specified). Possible values are 0
+ * or any other character
+ * precedeed by a '. The default is to pad with spaces.
+ * + An optional "-" sign, that causes sprintf to left-align the result of this placeholder. The default is to
+ * right-align the result.
+ * + An optional number, that says how many characters the result should have. If the value to be returned is shorter
+ * than this number, the result will be padded.
+ * + An optional precision modifier, consisting of a "." (dot) followed by a number, that says how many digits should
+ * be displayed for floating point numbers. When used on a string, it causes the result to be truncated.
+ * + A type specifier that can be any of:
+ *
+ *      + % — print a literal "%" character
+ *      + b — print an integer as a binary number
+ *      + c — print an integer as the character with that ASCII value
+ *      + d — print an integer as a signed decimal number
+ *      + e — print a float as scientific notation
+ *      + u — print an integer as an unsigned decimal number
+ *      + f — print a float as is
+ *      + o — print an integer as an octal number
+ *      + s — print a string as is
+ *      + x — print an integer as a hexadecimal number (lower-case)
+ *      + X — print an integer as a hexadecimal number (upper-case)
+ *
+
  * You can also swap the arguments. That is, the order of the placeholders doesn't have to match the order of the
  * arguments. You can do that by simply indicating in the format string which arguments the placeholders refer to:
- * </p>
- * <code>sprintf('%2$s %3$s a %1$s', 'cracker', 'Polly', 'wants');</code>
- * <p>
+
+ *      sprintf('%2$s %3$s a %1$s', 'cracker', 'Polly', 'wants');
+ *
  * And, of course, you can repeat the placeholders without having to increase the number of arguments.
- * </p>
- * <p>
+ *
+ *
  * Format strings may contain replacement fields rather than positional placeholders. Instead of referring to a certain
  * argument, you can now refer to a certain key within an object. Replacement fields are surrounded by rounded
  * parentheses () and begin with a keyword that refers to a key:
- * </p>
- *
- * <pre class="js">
- * var user = {
- * 	name : 'Dolly'
- * };
- * sprintf( 'Hello %(name)s', user ); // Hello Dolly
- * </pre>
- *
- * <p>
+
+ *      var user = {
+ *          name : 'Dolly'
+ *      };
+ *      sprintf( 'Hello %(name)s', user ); // Hello Dolly
+
  * Keywords in replacement fields can be optionally followed by any number of keywords or indexes:
- * </p>
+
+ *      var users = [ {
+            name : 'Dolly'
+ *      }, {
+            name : 'Molly'
+ *      }, {
+ *          name : 'Polly'
+*       } ];
  *
- * <pre class="js">
- * var users = [ {
- * 	name : 'Dolly'
- * }, {
- * 	name : 'Molly'
- * }, {
- * 	name : 'Polly'
- * } ];
- * sprintf( 'Hello %(users[0].name)s, %(users[1].name)s and %(users[2].name)s', {
- * 	users : users
- * } ); // Hello Dolly, Molly and Polly
- * </pre>
+*       sprintf( 'Hello %(users[0].name)s, %(users[1].name)s and %(users[2].name)s', {
+			users : users
+ *      } ); // Hello Dolly, Molly and Polly
+
+    @param {string}
+ *            fmt The format string
+ * @param {...*} argv The formatters
+ * @returns {string}
  * @method
  * @author Alexandru Marasteanu
  * @copyright Copyright (c) Alexandru Marasteanu <alexaholic [at) gmail (dot] com>. All rights reserved.
@@ -274,11 +248,47 @@ var vsprintf = function( fmt, argv ) {
  *          HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
  *          NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *          POSSIBILITY OF SUCH DAMAGE.
+ * @example
+ *      var strings = require("ink-strings");
+ *      strings.sprintf( "Hello %1s, it is me, %2s", "Doctor", "Dalek Caan" );
+ *      -> "Hello Doctor, it is me, Dalek Caan"
+ *
+ *      strings.sprintf( "%1b", 24 );
+ *      -> "11000"
+ *
+ *      strings.sprintf( "%1c", 74 );
+ *      -> "J"
+ *
+ *      strings.sprintf( "%1d", 40 );
+ *      -> "40"
+ *
+ *      strings.sprintf( "%1d", 40 * -1 );
+ *      -> "-40"
+ *
+ *      strings.sprintf( "%1e", 40 * 1000000 );
+ *      -> "4e+7"
+ *
+ *      strings.sprintf( "%1u", 40 * -1 );
+ *      -> "40"
+ *
+ *      strings.sprintf( "%1f", 40.23498765 );
+ *      -> "40.23498765"
+ *
+ *      strings.sprintf( "%1o", 24 );
+ *      -> "30"
+ *
+ *      strings.sprintf( "%(name)s %(occupation)s", {
+			name       : "doctor",
+			occupation : "timelord"
+		} );
+        -> "doctor timelord"
+
+ *
  */
 exports.sprintf = sprintf;
 /**
  * vsprintf() is the same as sprintf() except that it accepts an array of arguments, rather than a variable number of
- * arguments:
+ * arguments
  * @method
  * @author Alexandru Marasteanu
  * @copyright Copyright (c) Alexandru Marasteanu <alexaholic [at) gmail (dot] com>. All rights reserved.
@@ -289,7 +299,3 @@ exports.sprintf = sprintf;
  */
 exports.vsprintf = vsprintf;
 
-/*
- * jshint forin:true, noarg:true, eqeqeq:true, strict:true, undef:true, unused:true, curly:true, browser:true,
- * jquery:true, es5:true, node:true, indent:4, maxerr:50, globalstrict:true, newcap:true
- */

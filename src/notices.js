@@ -19,3 +19,23 @@ Modified to make it nodejs friendly, pass jshint:
     @copyright Copyright 2012 Hannes Wallnoefer <hannes@helma.at>
     @preserve
  */
+
+/*!
+	Portion of this library are subject to
+ * Helma License Notice
+ *
+ * The contents of this file are subject to the Helma License Version 2.0 (the "License"). You may not use this file
+ * except in compliance with the License. A copy of the License is available at
+ * http://adele.helma.org/download/helma/license.txt
+ *
+ * Copyright 1998-2006 Helma Software. All Rights Reserved.
+ *
+ * $RCSfile: String.js,v $ $Author: zumbrunn $ $Revision: 8714 $ $Date: 2007-12-13 13:21:48 +0100 (Don, 13 Dez 2007) $
+ */
+
+/*! sprintf.js | Copyright (c) 2007-2013 Alexandru Marasteanu <hello at alexei dot ro> | 3 clause BSD license */
+
+/*! EMAIL REGEX
+ Scott Gonzalez: http://projects.scottsplayground.com/email_address_validation/
+http://www.opensource.org/licenses/mit-license.php
+ */

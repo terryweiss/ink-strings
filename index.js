@@ -8,13 +8,15 @@
  * @copyright Copyright &copy; 2011-2012 Terry Weiss. All rights reserved
  */
 
-var sys = require("lodash");
-var rutils = require("./src/rutils");
-var sprintf = require("./src/sprintf");
-var under = require("./src/under");
-var tools = require("./src/tools");
-var base64 = require("./src/base64");
+var sys = require( "lodash" );
+var base64 = require( "./src/base64" );
+var binary = require( "./src/binary" );
+var generators = require( "./src/generators" );
+var html = require( "./src/html" );
+var patterns = require( "./src/patterns" );
+var shape = require( "./src/shape" );
+var sprintf = require( "./src/sprintf" );
+var tests = require( "./src/tests" );
 
-
-sys.extend(exports, rutils, sprintf, under, tools, base64);
+sys.extend( exports, base64, binary, generators, html, patterns, shape, sprintf, tests );
 

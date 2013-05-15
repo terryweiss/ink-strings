@@ -1,46 +1,23 @@
 "use strict";
 /**
- * @fileOverview Javascript lacks complete string manipulation operations. This an attempt to fill that gap. List of
- *               build-in methods can be found for example from Dive Into JavaScript. As name states this an extension
- *               for Underscore.js, but it can be used independently from _s-global variable. But with Underscore.js you
- *               can use Object-Oriented style and chaining.
+ * @fileOverview These methods shape a string into the form you
+ * want it
+ * @module ink/strings/shape
+ * @author Terry Weiss
+ * @author zumbrunn
  * @author Esa-Matti Suurone
- * @license The MIT License Copyright (c) 2011 Esa-Matti Suuronen esa-matti@suuronen.org Permission is hereby granted,
- *          free of charge, to any person obtaining a copy of this software and associated documentation files (the
- *          "Software"), to deal in the Software without restriction, including without limitation the rights to use,
- *          copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit
- *          persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright
- *          notice and this permission notice shall be included in all copies or substantial portions of the Software.
- *          THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
- *          LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO
- *          EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
- *          AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
- *          OR OTHER DEALINGS IN THE SOFTWARE.
- * @note that this is only a subset of the original underscore string, only those items missing from rutils.js
- * @module ink/strings
+ * @author Pavel Pravosud
+ * @requires ink/strings/patterns
+ * @requires lodash
  */
 
-// Underscore.string
-// (c) 2010 Esa-Matti Suuronen <esa-matti aet suuronen dot org>
-// Underscore.string is freely distributable under the terms of the MIT license.
-// Documentation: https://github.com/epeli/underscore.string
-// Some code is borrowed from MooTools and Alexandru Marasteanu.
-// Version '2.3.0'
-// Defining helper functions.
+var patterns = require( "./patterns" );
+var tests = require("./tests") ;
+var sys = require( "lodash" );
+
 var nativeTrim = String.prototype.trim;
 var nativeTrimRight = String.prototype.trimRight;
 var nativeTrimLeft = String.prototype.trimLeft;
-
-var sys = require( "lodash" );
-var slice = [].slice;
-var escapeChars = {
-	lt : '<',
-	gt : '>',
-	quot : '"',
-	apos : "'",
-	amp : '&'
-};
-
 var defaultToWhiteSpace = function ( characters ) {
 	if ( sys.isNull( characters ) ) {
 		return '\\s';
@@ -49,6 +26,121 @@ var defaultToWhiteSpace = function ( characters ) {
 	} else {
 		return '[' + exports.escapeRegExp( characters ) + ']';
 	}
+};
+
+/**
+ * converts a string into a hexadecimal color representation (e.g. "ffcc33") from a color string
+ * like "rgb (255, 204, 51)".
+ *
+ * @param {String}
+ *            string the string to convert
+ * @returns {String} the resulting hex color (w/o "#")
+ * @example
+ *      var strings = require("ink-strings");
+ *      strings.toHexColor("rgb(255, 0, 0)");
+ *      -> "ff0000"
+ */
+exports.toHexColor = function ( string ) {
+	// noinspection MagicNumberJS
+	var HEXVALUE = 16;
+	if ( tests.startsWith( string, "rgb" ) ) {
+		var buffer = [];
+		var col = string.replace( /[^0-9,]/g, '' );
+
+		sys.each( col.split( "," ), function ( part ) {
+			var num = parseInt( part, 10 );
+			var hex = num.toString( HEXVALUE );
+			buffer.push( exports.pad( hex, 2, "0", -1 ) );
+		} );
+
+		return buffer.join( "" );
+	}
+	var color = string.replace( new RegExp( patterns.HEXPATTERN.source ), '' );
+	return exports.pad( color.toLowerCase(), 6, "0", -1 );
+};
+
+/**
+ * function cleans a string by throwing away all non-alphanumeric characters
+ *
+ * @returns cleaned string
+ */
+exports.toAlphanumeric = function ( string ) {
+	return string.replace( new RegExp( patterns.ANUMPATTERN.source, "g" ), '' );
+};
+
+/**
+ * Transforms string from space, dash, or underscore notation to camel-case.
+ *
+ * @param {String}
+ *            string a string
+ * @returns {String} the resulting string
+ * @example
+ *      strings.camelize( "the_doctor" );
+ *      -> "theDoctor"
+ */
+exports.camelize = function ( string ) {
+	return string.replace( patterns.CAPITALSPATTERN,function ( m, l ) {
+		// "ABC" -> "Abc"
+		return l[ 0 ].toUpperCase() + l.substring( 1 ).toLowerCase();
+	} ).replace( patterns.SEPARATORS, function ( m, l ) {
+			// foo-bar -> fooBar
+			return l.toUpperCase();
+		} );
+};
+
+/**
+ * function inserts a string every number of characters
+ *
+ * @param {String}
+ *            string
+ * @param {Number}
+ *            interval number of characters after which insertion should take place
+ * @param {String}
+ *            string to be inserted
+
+ * @returns String resulting string
+ * @example
+ *      strings.group( "Madame Vastra wears a veil", 3, ":)" )
+ *      -> "Mad:)ame:) Va:)str:)a w:)ear:)s a:) ve:)il:)"
+ */
+exports.group = function ( string, interval, str ) {
+	if ( !interval || interval < 1 ) {
+		// noinspection MagicNumberJS
+		interval = 20;
+	}
+	if ( !str || string.length < interval ) { return string; }
+	var buffer = [];
+	for ( var i = 0; i < string.length; i += interval ) {
+		var strPart = string.substring( i, i + interval );
+		buffer.push( strPart );
+//		if ( ignoreWhiteSpace === true || ( strPart.length === interval && !/\s/g.test( strPart ) ) ) {
+		buffer.push( str );
+//		}
+	}
+	return buffer.join( "" );
+};
+
+/**
+ * replace all linebreaks and optionally all br tags
+ *
+ * @param {String}
+ *            flag indicating if html tags should be replaced
+ * @param {Boolean=}
+ *            removeTags When true, <br/> and \n \r are all removed
+ * @param {string=} replacement for the linebreaks / html tags
+ * @returns {string} the unwrapped string
+ * @example
+ *      strings.unwrap( "The Doctor <br/>has a cool\n bowtie" );
+ *      -> "The Doctor <br/>has a cool bowtie"
+ *
+ *      strings.unwrap( "The Doctor <br/>has a cool\n bowtie", true );
+ *      ->"The Doctor has a cool bowtie"
+ *
+ */
+exports.unwrap = function ( string, removeTags, replacement ) {
+	replacement = replacement || "";
+	string = string.replace( patterns.LINEBREAKS, replacement );
+	return removeTags === true ? string.replace( patterns.BRTAGS, replacement ) : string;
 };
 
 /**
@@ -65,6 +157,7 @@ exports.chop = function ( str, step ) {
 		return [];
 	}
 	str = String( str );
+	//noinspection JSHint
 	step = ~~step;
 	return step > 0 ? str.match( new RegExp( '.{1,' + step + '}', 'g' ) ) : [ str ];
 };
@@ -81,21 +174,6 @@ exports.clean = function ( str ) {
 };
 
 /**
- * Counts the instances of one string inside another
- *
- * @param {string}
- *            str The string to look in
- * @param {string}
- *            substr The pattern to count
- * @returns {Number}
- */
-exports.count = function ( str, substr ) {
-	if ( sys.isNull( str ) || sys.isNull( substr ) ) {
-		return 0;
-	}
-	return String( str ).split( substr ).length - 1;
-};
-/**
  * Returns an array of the characters in the string
  *
  * @param {string}
@@ -108,6 +186,7 @@ exports.chars = function ( str ) {
 	}
 	return String( str ).split( '' );
 };
+
 /**
  * Returns a copy of the string in which all the case-based characters have had their case swapped.
  *
@@ -123,32 +202,6 @@ exports.swapCase = function ( str ) {
 		return c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase();
 	} );
 
-};
-
-/**
- * Converts entity characters to HTML equivalents.
- *
- * @param {string}
- *            str The string to work with
- * @return {string}
- */
-exports.unescapeHTML = function ( str ) {
-	if ( sys.isNull( str ) ) {
-		return '';
-	}
-	return String( str ).replace( /\&([^;]+);/g, function ( entity, entityCode ) {
-		var match;
-
-		if ( entityCode in escapeChars ) {
-			return escapeChars[ entityCode ];
-		} else if ( match = entityCode.match( /^#x([\da-fA-F]+)$/ ) ) {
-			return String.fromCharCode( parseInt( match[ 1 ], 16 ) );
-		} else if ( match = entityCode.match( /^#(\d+)$/ ) ) {
-			return String.fromCharCode( ~~match[ 1 ] );
-		} else {
-			return entity;
-		}
-	} );
 };
 
 /**
@@ -170,22 +223,6 @@ exports.splice = function ( str, i, howmany, substr ) {
 	arr.splice( ~~i, ~~howmany, substr );
 	return arr.join( '' );
 };
-/**
- * Insert one string into another
- *
- * @param {string}
- *            str The string that receive the insert
- * @param {integer}
- *            i Where to insert the string
- * @param {string}
- *            substr The string to insert
- * @returns {string}
- */
-exports.insert = function ( str, i, substr ) {
-	return exports.splice( str, i, 0, substr );
-};
-
-
 
 /**
  * Splits a string with <code>\n</code> new line markers into one string per line as an array.
@@ -200,6 +237,7 @@ exports.lines = function ( str ) {
 	}
 	return String( str ).split( "\n" );
 };
+
 /**
  * Return reversed strings
  *
@@ -226,7 +264,6 @@ exports.succ = function ( str ) {
 	str = String( str );
 	return str.slice( 0, -1 ) + String.fromCharCode( str.charCodeAt( str.length - 1 ) + 1 );
 };
-
 
 /**
  * Converts a camelized or dasherized string into an underscored one
@@ -269,6 +306,22 @@ exports.classify = function ( str ) {
 exports.humanize = function ( str ) {
 	return exports.capitalize( exports.underscored( str ).replace( /_id$/, '' ).replace( /_/g, ' ' ) );
 };
+
+/**
+ * Insert one string into another
+ *
+ * @param {string}
+ *            str The string that receive the insert
+ * @param {integer}
+ *            i Where to insert the string
+ * @param {string}
+ *            substr The string to insert
+ * @returns {string}
+ */
+exports.insert = function ( str, i, substr ) {
+	return exports.splice( str, i, 0, substr );
+};
+
 /**
  * Trims defined characters from begining and ending of the string. Defaults to whitespace characters.
  *
@@ -286,6 +339,7 @@ exports.trim = function ( str, characters ) {
 		return nativeTrim.call( str );
 	}
 	characters = defaultToWhiteSpace( characters );
+	//noinspection JSHint
 	return String( str ).replace( new RegExp( '\^' + characters + '+|' + characters + '+$', 'g' ), '' );
 };
 /**
@@ -344,9 +398,26 @@ exports.truncate = function ( str, length, truncateStr ) {
 	}
 	str = String( str );
 	truncateStr = truncateStr || '...';
+	//noinspection JSHint
 	length = ~~length;
 	return str.length > length ? str.slice( 0, length ) + truncateStr : str;
 };
+
+/**
+ * Prefixes RegEx special characters with a backslash (\).
+ *
+ * @param {string}
+ *            str The string to work with
+ * @return {string}
+ */
+exports.escapeRegExp = function ( str ) {
+	if ( str === null ) {
+		return '';
+	}
+	return String( str ).replace( patterns.REGEXCHARS, '\\$1' );
+};
+
+
 
 /**
  * A more elegant version of truncate prune extra chars, never leaving a half-chopped word.
@@ -368,6 +439,7 @@ exports.prune = function ( str, length, pruneStr ) {
 	}
 
 	str = String( str );
+	//noinspection JSHint
 	length = ~~length;
 	pruneStr = !sys.isEmpty( pruneStr ) ? String( pruneStr ) : '...';
 
@@ -403,108 +475,6 @@ exports.words = function ( str, delimiter ) {
 		return [];
 	}
 	return exports.trim( str, delimiter ).split( delimiter || /\s+/ );
-};
-
-/**
- * Formats the numbers to a string
- *
- * @param {number}
- *            number The number to convert
- * @param {integer=}
- *            dec The number of decimal points to return
- * @param {string=}
- *            dsep decimal point
- * @param string
- *            {tsep=} Seperator
- * @returns {string}
- */
-exports.numberFormat = function ( number, dec, dsep, tsep ) {
-	if ( isNaN( number ) || sys.isNull( number ) ) {
-		return '';
-	}
-
-	number = number.toFixed( ~~dec );
-	tsep = tsep || ',';
-
-	var parts = number.split( '.' ), fnums = parts[ 0 ], decimals = parts[ 1 ] ? ( dsep || '.' ) + parts[ 1 ] : '';
-
-	return fnums.replace( /(\d)(?=(?:\d{3})+$)/g, '$1' + tsep ) + decimals;
-};
-/**
- * Searches a string from left to right for a pattern and returns a substring consisting of the characters in the string
- * that are to the right of the pattern or all string if no match found.
- *
- * @param {string}
- *            str
- * @param {string}sep
- *            The pattern to look for
- * @returns {string}
- */
-exports.strRight = function ( str, sep ) {
-	if ( sys.isNull( str ) ) {
-		return '';
-	}
-	str = String( str );
-	sep = !sys.isNull( sep ) ? String( sep ) : sep;
-	var pos = !sep ? -1 : str.indexOf( sep );
-	return ~pos ? str.slice( pos + sep.length, str.length ) : str;
-};
-/**
- * Searches a string from right to left for a pattern and returns a substring consisting of the characters in the string
- * that are to the right of the pattern or all string if no match found.
- *
- * @param {string}
- *            str
- * @param {string}sep
- *            The pattern to look for
- * @returns {string}
- */
-exports.strRightBack = function ( str, sep ) {
-	if ( sys.isNull( str ) ) {
-		return '';
-	}
-	str = String( str );
-	sep = !sys.isNull( sep ) ? String( sep ) : sep;
-	var pos = !sep ? -1 : str.lastIndexOf( sep );
-	return ~pos ? str.slice( pos + sep.length, str.length ) : str;
-};
-/**
- * Searches a string from left to right for a pattern and returns a substring consisting of the characters in the string
- * that are to the left of the pattern or all string if no match found.
- *
- * @param {string}
- *            str
- * @param {string}sep
- *            The pattern to look for
- * @returns {string}
- */
-exports.strLeft = function ( str, sep ) {
-	if ( sys.isNull( str ) ) {
-		return '';
-	}
-	str = String( str );
-	sep = !sys.isNull( sep ) ? String( sep ) : sep;
-	var pos = !sep ? -1 : str.indexOf( sep );
-	return ~pos ? str.slice( 0, pos ) : str;
-};
-/**
- * Searches a string from right to left for a pattern and returns a substring consisting of the characters in the string
- * that are to the left of the pattern or all string if no match found.
- *
- * @param {string}
- *            str
- * @param {string}sep
- *            The pattern to look for
- * @returns {string}
- */
-exports.strLeftBack = function ( str, sep ) {
-	if ( sys.isNull( str ) ) {
-		return '';
-	}
-	str += '';
-	sep = !sys.isNull( sep ) ? '' + sep : sep;
-	var pos = str.lastIndexOf( sep );
-	return ~pos ? str.slice( 0, pos ) : str;
 };
 /**
  * Join an array into a human readable sentence.
@@ -543,7 +513,7 @@ exports.toSentence = function ( array, separator, lastSeparator, serial ) {
  * @returns {string}
  */
 exports.toSentenceSerial = function () {
-	var args = slice.call( arguments );
+	var args = [].slice.call( arguments );
 	args[ 3 ] = true;
 	return exports.toSentence.apply( exports, args );
 };
@@ -593,70 +563,13 @@ exports.quote = function ( str ) {
 	return exports.surround( str, '"' );
 };
 
-/**
- * Calculates Levenshtein distance between two strings.
- *
- * @see http://en.wikipedia.org/wiki/Levenshtein_distance
- * @param {string}
- *            str1 The first string to look at
- * @param {string}
- *            str2 The second string to look at
- * @returns {number}
- */
-exports.levenshtein = function ( str1, str2 ) {
-	if ( str1 === null && str2 === null ) {
-		return 0;
-	}
-	if ( str1 === null ) {
-		return String( str2 ).length;
-	}
-	if ( str2 === null ) {
-		return String( str1 ).length;
-	}
-
-	str1 = String( str1 );
-	str2 = String( str2 );
-	var prev = null;
-	var current = [], value;
-
-	for ( var i = 0; i <= str2.length; i++ ) {
-		for ( var j = 0; j <= str1.length; j++ ) {
-			if ( i && j ) {
-				if ( str1.charAt( j - 1 ) === str2.charAt( i - 1 ) ) {
-					value = prev;
-				} else {
-					value = Math.min( current[ j ], current[ j - 1 ], prev ) + 1;
-				}
-			} else {
-				value = i + j;
-			}
-
-			prev = current[ j ];
-			current[ j ] = value;
-		}
-	}
-	return current.pop();
-};
-
-/**
- * Prefixes RegEx special characters with a backslash (\).
- *
- * @param {string}
- *            str The string to work with
- * @return {string}
- */
-exports.escapeRegExp = function ( str ) {
-	if ( str === null ) {
-		return '';
-	}
-	return String( str ).replace( /([.*+?^=!:${}()|[\]\/\\])/g, '\\$1' );
-};
-
 var strRepeat = function ( str, qty ) {
-	if ( qty < 1 ) return '';
+	if ( qty < 1 ) {return '';}
 	var result = '';
 	while ( qty > 0 ) {
-		if ( qty & 1 ) result += str;
+		//noinspection JSHint
+		if ( qty & 1 ) {result += str;}
+		//noinspection JSHint
 		qty >>= 1, str += str;
 	}
 	return result;
@@ -677,14 +590,17 @@ var strRepeat = function ( str, qty ) {
  * @returns {string}
  */
 exports.pad = function ( str, length, padStr, type ) {
-	str = str == null ? '' : String( str );
+	str = str === null ? '' : String( str );
+	//noinspection JSHint
 	length = ~~length;
 
 	var padlen = 0;
 
-	if ( !padStr )
+	if ( !padStr ) {
 		padStr = ' ';
-	else if ( padStr.length > 1 ) padStr = padStr.charAt( 0 );
+	} else if ( padStr.length > 1 ) {
+		padStr = padStr.charAt( 0 );
+	}
 
 	switch ( type ) {
 		case 'right':
@@ -692,8 +608,8 @@ exports.pad = function ( str, length, padStr, type ) {
 			return str + strRepeat( padStr, padlen );
 		case 'both':
 			padlen = length - str.length;
-			return strRepeat( padStr, Math.ceil( padlen / 2 ) ) + str
-				+ strRepeat( padStr, Math.floor( padlen / 2 ) );
+			return strRepeat( padStr, Math.ceil( padlen / 2 ) ) + str +
+				strRepeat( padStr, Math.floor( padlen / 2 ) );
 		default: // 'left'
 			padlen = length - str.length;
 			return strRepeat( padStr, padlen ) + str;
@@ -741,6 +657,7 @@ exports.rpad = function ( str, length, padStr ) {
 exports.lrpad = function ( str, length, padStr ) {
 	return exports.pad( str, length, padStr, 'both' );
 };
+
 var parseNumber = function ( source ) {
 	var res = ( source * 1 ) || 0;
 	return res;
@@ -756,8 +673,9 @@ var parseNumber = function ( source ) {
  * @returns {number}
  */
 exports.toNumber = function ( str, decimals ) {
-	if ( str == null || str == '' ) return 0;
+	if ( str === null || str === '' ) {return 0;}
 	str = String( str );
+	//noinspection JSHint
 	var num = parseNumber( parseNumber( str ).toFixed( ~~decimals ) );
 	return num === 0 && !str.match( /^0+$/ ) ? Number.NaN : num;
 };
@@ -770,9 +688,9 @@ exports.toNumber = function ( str, decimals ) {
  * @returns {string}
  */
 exports.join = function () {
-	var args = slice.call( arguments ), separator = args.shift();
+	var args = [].slice.call( arguments ), separator = args.shift();
 
-	if ( separator == null ) separator = '';
+	if ( separator === null ) {separator = '';}
 
 	return args.join( separator );
 };
@@ -785,7 +703,7 @@ exports.join = function () {
  * @returns {string}
  */
 exports.titleize = function ( str ) {
-	if ( str == null ) return '';
+	if ( str === null ) {return '';}
 	return String( str ).replace( /(?:^|\s)\S/g, function ( c ) {
 		return c.toUpperCase();
 	} );
@@ -799,6 +717,30 @@ exports.titleize = function ( str ) {
  * @returns {string}
  */
 exports.capitalize = function ( str ) {
-	str = str == null ? '' : String( str );
+	str = str === null ? '' : String( str );
 	return str.charAt( 0 ).toUpperCase() + str.slice( 1 );
+};
+
+/**
+ * Formats a string with {} placeholders like .net's format method. This is a very simple and fast replacement and not an interpolation.
+ * It is only appropriate for values and not object unless they format well with `toString()`.
+ *
+ * @example
+ *      var res = strings.format( "Well, this is {0} how do yo do!", "fine" );
+ *      ->  "Well, this is fine how do yo do!"
+ *
+ * @param {string}
+ *            format The format string
+ * @param {...object}
+ *            The contents to replace
+ * @return {string}
+ */
+exports.format = function() {
+	var s = arguments[ 0 ];
+	for ( var i = 0; i < arguments.length - 1; i++ ) {
+		var reg = new RegExp( "\\{" + i + "\\}", "gm" );
+		s = s.replace( reg, arguments[ i + 1 ] );
+	}
+
+	return s;
 };
