@@ -34,14 +34,14 @@ On the web:
 *ink-strings* comes with a pretty big set of methods and a few classes. The document is broken up by category, but all methods
 are published from the main `ink-strings` module.
 
-* [http://terryweiss.github.io/ink-strings/generators.html](Generating Strings)
-* [http://terryweiss.github.io/ink-strings/base64.html](Base64 Encoding/Decoding)
-* [http://terryweiss.github.io/ink-strings/shape.html](Shaping and Manipulating Strings)
-* [http://terryweiss.github.io/ink-strings/sprintf.html](sprintf)
-* [http://terryweiss.github.io/ink-strings/tests.html](Interrogating Strings to see what they are made of)
-* [http://terryweiss.github.io/ink-strings/html.html](HTML Tags)
-* [http://terryweiss.github.io/ink-strings/binary.html](Binary Strings)
-* [http://terryweiss.github.io/ink-strings/patterns.html](RegEx Pattern Library)
+* [Generating Strings](http://terryweiss.github.io/ink-strings/generators.html)
+* [Base64 Encoding/Decoding](http://terryweiss.github.io/ink-strings/base64.html)
+* [Shaping and Manipulating Strings](http://terryweiss.github.io/ink-strings/shape.html)
+* [sprintf](http://terryweiss.github.io/ink-strings/sprintf.html)
+* [Interrogating Strings to see what they are made of](http://terryweiss.github.io/ink-strings/tests.html)
+* [HTML Tags](http://terryweiss.github.io/ink-strings/html.html)
+* [Binary Strings](http://terryweiss.github.io/ink-strings/binary.html)
+* [RegEx Pattern Library](http://terryweiss.github.io/ink-strings/patterns.html)
 
 ## License ##
 Permission is hereby granted, free of charge, to any person
