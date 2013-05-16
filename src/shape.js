@@ -327,20 +327,18 @@ exports.insert = function ( str, i, substr ) {
  *
  * @param {string}
  *            str The string to trim
- * @param {string=}
- *            characters The characters to replace
+
  * @returns {string}
  */
-exports.trim = function ( str, characters ) {
+exports.trim = function ( str ) {
 	if ( sys.isNull( str ) ) {
 		return '';
 	}
-	if ( !characters && nativeTrim ) {
+	if ( nativeTrim ) {
 		return nativeTrim.call( str );
 	}
-	characters = defaultToWhiteSpace( characters );
-	//noinspection JSHint
-	return String( str ).replace( new RegExp( '\^' + characters + '+|' + characters + '+$', 'g' ), '' );
+
+	return String( str ).replace( new RegExp( /^\s+|\s+$/, 'g' ), '' );
 };
 /**
  * Left trim. Similar to trim, but only for left side.

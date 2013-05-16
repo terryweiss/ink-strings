@@ -4,7 +4,6 @@
 
  * @author Terry Weiss
  * @module ink/strings
- * @license MIT (see LICENSE.md)
  * @copyright Copyright &copy; 2011-2012 Terry Weiss. All rights reserved
  */
 
@@ -19,4 +18,12 @@ var sprintf = require( "./src/sprintf" );
 var tests = require( "./src/tests" );
 
 sys.extend( exports, base64, binary, generators, html, patterns, shape, sprintf, tests );
+
+//noinspection JSHint
+(function ( window ) {
+	(function ( ink ) {
+		ink.strings = exports;
+	})( window.ink = window.ink || {} );
+
+})( this );
 

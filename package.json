@@ -1,7 +1,7 @@
 {
 	"name"            : "ink-strings",
 	"version"         : "0.1.0",
-	"description"     : "The purpose of the *ink-strings* library is to gather up the best of the available string libraries and edit them into a single, somewhat cohesive whole that runs on server and client."
+	"description"     : "The purpose of the *ink-strings* library is to gather up the best of the available string libraries and edit them into a single, somewhat cohesive whole that runs on server and client.",
 	"devDependencies" : {
 		"jsdoc"       : "git://github.com/jsdoc3/jsdoc.git",
 		"grunt"       : "~0.4.1",

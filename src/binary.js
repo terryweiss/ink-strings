@@ -5,7 +5,6 @@
  * primarily to support the base64 encoding methods in {@link module:ink/strings/base64}. But they are still a valuable
  * set of tools if you need 'em.
  * @copyright Copyright 2012 Hannes Wallnoefer <hannes@helma.at>
- * @license Apache
  * @author Hannes Wallnoefer <hannes@helma.at>
  * @author Terry Weiss <me@terryweiss.net>
  * @module ink/strings/binary

@@ -1,6 +1,7 @@
 "use strict";
 var path = require( "path" );
-var sys = require("lodash");
+var sys = require( "lodash" );
+
 var jsdocPublicApi = {
 	src       : ["./src", "./README.md", "./index.js"],
 	dest      : "./dox",
@@ -9,6 +10,7 @@ var jsdocPublicApi = {
 	config    : "./etc/doc-template/jsdoc.conf.json",
 	options   : "--recurse --lenient --verbose"
 };
+
 function jsdocCommand( jsdoc ) {
 	var cmd = [];
 	cmd.unshift( jsdoc.options );
@@ -23,21 +25,60 @@ function jsdocCommand( jsdoc ) {
 	cmd.unshift( path.resolve( "./node_modules/jsdoc/jsdoc" ) );
 	return cmd.join( " " );
 }
+
 var tasks = {
-		shell : {
-			options : {
-				stdout : true,
-				stderr : true
-			},
-			docs    : {
-				command : jsdocCommand( jsdocPublicApi )
+
+	shell  : {
+		options    : {
+			stdout : true,
+			stderr : true
+		},
+		docs       : {
+			command : jsdocCommand( jsdocPublicApi )
+		},
+		browserify : {
+			command : "browserify index.js > dist/ink.strings.js"
+		}
+	},
+	jshint : {
+		files : ["src/**/*.js", "index.js"],
+
+		options : {
+			node         : true,
+			boss         : true,
+			globalstrict : true,
+			validthis    : true
+		}
+	},
+	uglify : {
+		options : {
+			compress         : true,
+			preserveComments : "some",
+			banner           : '/*! <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+		},
+		strings : {
+			files : {
+				'dist/ink.strings.min.js' : ['src/notices.js', 'dist/ink.strings.js' ]
 			}
 		}
-	};
-module.exports = function ( grunt ) {
+	}
 
+};
+
+module.exports = function ( grunt ) {
+	tasks.pkg = grunt.file.readJSON( 'package.json' );
 	grunt.initConfig( tasks );
+
 	grunt.loadNpmTasks( "grunt-shell" );
-	grunt.registerTask("dox", ["shell:docs"]);
+	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
+	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
+
+	grunt.registerTask( "dox", ["shell:docs"] );
+	grunt.registerTask( "lint", ["jshint"] );
+	grunt.registerTask( "brow", ["shell:browserify"] );
+
+	grunt.registerTask( "build", ["lint", "brow", "uglify"] );
+
+
 
 };
