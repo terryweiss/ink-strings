@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title> ink-strings Module: ink/strings/binary</title>
+
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.css">
+    <!--<link type="text/css" rel="stylesheet" href="styles/darkstrap-v0.9.0.css">-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/site.css">
+    <!-- <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css"> -->
+</head>
+
+<body>
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span8">
+			<div id="main">
+
+			    <h1 class="page-title">Module: ink/strings/binary</h1>
+
+			    
+
+
+
+<section>
+    
+<header>
+    <h2>
+    ink/strings/binary
+    </h2>
+    
+</header>  
+
+<article>
+    <div class="container-overview">
+    
+    
+    
+        
+            <div class="description"><p>Binary, ByteArray and ByteString classes as defined in
+<a href="http://wiki.commonjs.org/wiki/Binary/B">CommonJS Binary/B</a>. This file is included in ink-strings
+primarily to support the base64 encoding methods in <a href="base64.html">module:ink/strings/base64</a>. But they are still a valuable
+set of tools if you need 'em.</p></div>
+        
+        
+        
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li><a href="mailto:hannes@helma.at">Hannes Wallnoefer</a></li>
+        
+            <li><a href="mailto:me@terryweiss.net">Terry Weiss</a></li>
+        </ul>
+    </dd>
+    
+    
+    
+    <dt class="tag-copyright">Copyright:</dt>
+    <dd class="tag-copyright"><ul class="dummy"><li>Copyright 2012 Hannes Wallnoefer <hannes@helma.at></li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="binary.js.html">src/binary.js</a>, line 2
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+        
+        
+    
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+        <h3 class="subsection-title">Classes</h3>
+        
+        <dl>
+            <dt><a href="binary-Binary.html">Binary</a></dt>
+            <dd></dd>
+        
+            <dt><a href="binary-ByteArray.html">ByteArray</a></dt>
+            <dd></dd>
+        
+            <dt><a href="binary-ByteString.html">ByteString</a></dt>
+            <dd></dd>
+        </dl>
+    
+    
+    
+    
+    
+        <h3 class="subsection-title">Members</h3>
+        
+        <dl>
+            
+<dt>
+    <h4 class="name" id="encodings"><span class="type-signature">&lt;inner> </span>encodings<span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The valid set of encoding supported by this library</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+        <h5 class="subsection-title">Properties:</h5>
+        
+        <dl>
+
+<table class="table table-striped props">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>US-ASCII</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>'ascii'</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>UTF-8</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>'utf8'</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>ISO-10646-UCS-2</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>'ucs2'</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+</dl>
+        
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="binary.js.html">src/binary.js</a>, line 20
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        </dl>
+    
+    
+    
+        <h3 class="subsection-title">Methods</h3>
+        
+        <dl>
+            
+<dt>
+    <h4 class="name" id="toByteArray"><span class="type-signature">&lt;static> </span>toByteArray<span class="signature">(str, charset)</span><span class="type-signature"> &rarr; {<a href="ByteArray.html">ByteArray</a>}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Converts the String to a mutable ByteArray using the specified encoding.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="table table-striped params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>str</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The string to convert</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>charset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the name of the string encoding. Defaults to 'UTF-8'</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="binary.js.html">src/binary.js</a>, line 207
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>a ByteArray representing the string</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type"><a href="ByteArray.html">ByteArray</a></span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="toByteString"><span class="type-signature">&lt;static> </span>toByteString<span class="signature">(str, charset)</span><span class="type-signature"> &rarr; {<a href="ByteString.html">ByteString</a>}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Converts the String to an immutable ByteString using the specified encoding.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="table table-striped params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>str</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The string to convert</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>charset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the name of the string encoding. Defaults to 'UTF-8'</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="binary.js.html">src/binary.js</a>, line 218
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>a ByteString representing the string</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type"><a href="ByteString.html">ByteString</a></span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+</dd>
+
+        </dl>
+    
+    
+    
+    
+    
+</article>
+
+</section>  
+
+
+
+
+			</div>
+		</div>
+        <div class="span4">
+			<nav>
+			    <div class='well'><span class="lead"><a href="index.html">Index</a></span><div class='tabbable tabs-left'><ul class='nav nav-tabs'><li><a href='#nav-modules' data-toggle='tab'>Modules</a></li><li><a href='#nav-classes'  data-toggle='tab'>Classes</a></li></ul><div class='tab-content'><div id='nav-modules' class='tab-pane'><ul class='nav nav-list'><li><a href="strings.html">ink/strings</a></li><li><a href="base64.html">ink/strings/base64</a></li><li><a href="binary.html">ink/strings/binary</a></li><li><a href="generators.html">ink/strings/generators</a></li><li><a href="html.html">ink/strings/html</a></li><li><a href="patterns.html">ink/strings/patterns</a></li><li><a href="shape.html">ink/strings/shape</a></li><li><a href="sprintf.html">ink/strings/sprintf</a></li><li><a href="types.html">ink/strings/types</a></li></ul></div><div id='nav-classes' class='tab-pane'><ul class='nav nav-list'><li><a href="binary-Binary.html">Binary</a></li><li><a href="binary-ByteArray.html">ByteArray</a></li><li><a href="binary-ByteString.html">ByteString</a></li></ul></div></div></div></div>
+			</nav>
+		</div>
+	</div>
+</div>
+<br clear="both">
+
+<footer>
+	<small>Copyright &copy; 2013 Terry Weiss. All rights reserved.</small>
+
+</footer>
+
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <script src="scripts/jquery.min.js"> </script>
+    <script src="scripts/bootstrap-tab.js"> </script>
+    <script src="scripts/URI.js"> </script>
+
+    <script>
+        prettyPrint();
+    </script>
+    <script>
+    $(document).ready(function(){
+         var uri = URI(window.location.href);
+         var filename = uri.filename();
+         var link = $(".nav li>a[href='" + filename + "']");
+
+         if (link.length > 0){
+           link.parents("li:first").addClass("active");
+           var paneid = link.parents(".tab-pane").addClass("active").attr("id");
+
+           $(".nav-tabs li>a[href='#"+paneid+"']").parents("li:first").addClass("active");
+         }
+    });
+    </script>
+
+</body>
+</html>

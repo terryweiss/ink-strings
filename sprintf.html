@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title> ink-strings Module: ink/strings/sprintf</title>
+
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.css">
+    <!--<link type="text/css" rel="stylesheet" href="styles/darkstrap-v0.9.0.css">-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/site.css">
+    <!-- <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css"> -->
+</head>
+
+<body>
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span8">
+			<div id="main">
+
+			    <h1 class="page-title">Module: ink/strings/sprintf</h1>
+
+			    
+
+
+
+<section>
+    
+<header>
+    <h2>
+    ink/strings/sprintf
+    </h2>
+    
+</header>  
+
+<article>
+    <div class="container-overview">
+    
+    
+    
+        
+            <div class="description"><p>The sprintf for js script from Alexandru Marasteanu at diveintojavascript.com</p></div>
+        
+        
+        
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Alexandru Marasteanu &lt;hello at alexei dot ro></li>
+        </ul>
+    </dd>
+    
+    
+    
+    <dt class="tag-copyright">Copyright:</dt>
+    <dd class="tag-copyright"><ul class="dummy"><li>Copyright (c) Alexandru Marasteanu <alexaholic [at) gmail (dot] com> All rights reserved.</li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="sprintf.js.html">src/sprintf.js</a>, line 3
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="http://www.diveintojavascript.com/projects/javascript-sprintf">http://www.diveintojavascript.com/projects/javascript-sprintf</a></li>
+        </ul>
+    </dd>
+    
+    
+    
+</dl>
+
+        
+        
+    
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        <h3 class="subsection-title">Methods</h3>
+        
+        <dl>
+            
+<dt>
+    <h4 class="name" id="sprintf"><span class="type-signature">&lt;static> </span>sprintf<span class="signature">(fmt, argv)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>sprintf() for JavaScript 0.7-beta1 sprintf() for JavaScript is a complete open source JavaScript sprintf
+implementation.</p>
+<p>It's prototype is simple:</p>
+<pre><code> string sprintf(string format , [mixed arg1 [, mixed arg2 [ ,...]]]);</code></pre>
+<p>The placeholders in the format string are marked by &quot;%&quot; and are followed by one or more of these elements, in this order:</p>
+<ul>
+<li>An optional &quot;+&quot; sign that forces to preceed the result with a plus or minus sign on numeric values. By default,
+only the &quot;-&quot; sign is used on negative numbers.</li>
+<li>An optional padding specifier that says what character to use for padding (if specified). Possible values are 0
+or any other character
+precedeed by a '. The default is to pad with spaces.</li>
+<li>An optional &quot;-&quot; sign, that causes sprintf to left-align the result of this placeholder. The default is to
+right-align the result.</li>
+<li>An optional number, that says how many characters the result should have. If the value to be returned is shorter
+than this number, the result will be padded.</li>
+<li>An optional precision modifier, consisting of a &quot;.&quot; (dot) followed by a number, that says how many digits should
+be displayed for floating point numbers. When used on a string, it causes the result to be truncated.</li>
+<li><p>A type specifier that can be any of:</p>
+<ul>
+<li>% — print a literal &quot;%&quot; character</li>
+<li>b — print an integer as a binary number</li>
+<li>c — print an integer as the character with that ASCII value</li>
+<li>d — print an integer as a signed decimal number</li>
+<li>e — print a float as scientific notation</li>
+<li>u — print an integer as an unsigned decimal number</li>
+<li>f — print a float as is</li>
+<li>o — print an integer as an octal number</li>
+<li>s — print a string as is</li>
+<li>x — print an integer as a hexadecimal number (lower-case)</li>
+<li>X — print an integer as a hexadecimal number (upper-case)</li>
+</ul>
+</li>
+</ul>
+<p>You can also swap the arguments. That is, the order of the placeholders doesn't have to match the order of the
+arguments. You can do that by simply indicating in the format string which arguments the placeholders refer to:
+     sprintf('%2$s %3$s a %1$s', 'cracker', 'Polly', 'wants');</p>
+<p>And, of course, you can repeat the placeholders without having to increase the number of arguments.</p>
+<p>Format strings may contain replacement fields rather than positional placeholders. Instead of referring to a certain
+argument, you can now refer to a certain key within an object. Replacement fields are surrounded by rounded
+parentheses () and begin with a keyword that refers to a key:
+     var user = {
+         name : 'Dolly'
+     };
+     sprintf( 'Hello %(name)s', user ); // Hello Dolly
+Keywords in replacement fields can be optionally followed by any number of keywords or indexes:
+     var users = [ {
+            name : 'Dolly'
+     }, {
+            name : 'Molly'
+     }, {
+         name : 'Polly'
+      } ];</p>
+<pre><code>  sprintf( 'Hello %(users[0].name)s, %(users[1].name)s and %(users[2].name)s', {
+        users : users
+ } ); // Hello Dolly, Molly and Polly</code></pre>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="table table-striped params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>fmt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The format string</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>argv</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The formatters</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Alexandru Marasteanu</li>
+        </ul>
+    </dd>
+    
+    
+    
+    <dt class="tag-copyright">Copyright:</dt>
+    <dd class="tag-copyright"><ul class="dummy"><li>Copyright (c) Alexandru Marasteanu <alexaholic [at) gmail (dot] com>. All rights reserved.</li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="sprintf.js.html">src/sprintf.js</a>, line 261
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="http://www.diveintojavascript.com/projects/javascript-sprintf">http://www.diveintojavascript.com/projects/javascript-sprintf</a></li>
+        </ul>
+    </dd>
+    
+    
+    
+</dl>
+
+    
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">string</span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>     var strings = require("ink-strings");     strings.sprintf( "Hello %1s, it is me, %2s", "Doctor", "Dalek Caan" );     -> "Hello Doctor, it is me, Dalek Caan"     strings.sprintf( "%1b", 24 );     -> "11000"     strings.sprintf( "%1c", 74 );     -> "J"     strings.sprintf( "%1d", 40 );     -> "40"     strings.sprintf( "%1d", 40 * -1 );     -> "-40"     strings.sprintf( "%1e", 40 * 1000000 );     -> "4e+7"     strings.sprintf( "%1u", 40 * -1 );     -> "40"     strings.sprintf( "%1f", 40.23498765 );     -> "40.23498765"     strings.sprintf( "%1o", 24 );     -> "30"     strings.sprintf( "%(name)s %(occupation)s", {
+			name       : "doctor",
+			occupation : "timelord"
+		} );
+        -> "doctor timelord"</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="vsprintf"><span class="type-signature">&lt;static> </span>vsprintf<span class="signature">(fmt, argv)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>vsprintf() is the same as sprintf() except that it accepts an array of arguments, rather than a variable number of
+arguments</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="table table-striped params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>fmt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The format string</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>argv</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array.&lt;string></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The formatters</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Alexandru Marasteanu</li>
+        </ul>
+    </dd>
+    
+    
+    
+    <dt class="tag-copyright">Copyright:</dt>
+    <dd class="tag-copyright"><ul class="dummy"><li>Copyright (c) Alexandru Marasteanu <alexaholic [at) gmail (dot] com>. All rights reserved.</li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="sprintf.js.html">src/sprintf.js</a>, line 273
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">string</span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+</dd>
+
+        </dl>
+    
+    
+    
+    
+    
+</article>
+
+</section>  
+
+
+
+
+			</div>
+		</div>
+        <div class="span4">
+			<nav>
+			    <div class='well'><span class="lead"><a href="index.html">Index</a></span><div class='tabbable tabs-left'><ul class='nav nav-tabs'><li><a href='#nav-modules' data-toggle='tab'>Modules</a></li><li><a href='#nav-classes'  data-toggle='tab'>Classes</a></li></ul><div class='tab-content'><div id='nav-modules' class='tab-pane'><ul class='nav nav-list'><li><a href="strings.html">ink/strings</a></li><li><a href="base64.html">ink/strings/base64</a></li><li><a href="binary.html">ink/strings/binary</a></li><li><a href="generators.html">ink/strings/generators</a></li><li><a href="html.html">ink/strings/html</a></li><li><a href="patterns.html">ink/strings/patterns</a></li><li><a href="shape.html">ink/strings/shape</a></li><li><a href="sprintf.html">ink/strings/sprintf</a></li><li><a href="types.html">ink/strings/types</a></li></ul></div><div id='nav-classes' class='tab-pane'><ul class='nav nav-list'><li><a href="binary-Binary.html">Binary</a></li><li><a href="binary-ByteArray.html">ByteArray</a></li><li><a href="binary-ByteString.html">ByteString</a></li></ul></div></div></div></div>
+			</nav>
+		</div>
+	</div>
+</div>
+<br clear="both">
+
+<footer>
+	<small>Copyright &copy; 2013 Terry Weiss. All rights reserved.</small>
+
+</footer>
+
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <script src="scripts/jquery.min.js"> </script>
+    <script src="scripts/bootstrap-tab.js"> </script>
+    <script src="scripts/URI.js"> </script>
+
+    <script>
+        prettyPrint();
+    </script>
+    <script>
+    $(document).ready(function(){
+         var uri = URI(window.location.href);
+         var filename = uri.filename();
+         var link = $(".nav li>a[href='" + filename + "']");
+
+         if (link.length > 0){
+           link.parents("li:first").addClass("active");
+           var paneid = link.parents(".tab-pane").addClass("active").attr("id");
+
+           $(".nav-tabs li>a[href='#"+paneid+"']").parents("li:first").addClass("active");
+         }
+    });
+    </script>
+
+</body>
+</html>
