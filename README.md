@@ -9,10 +9,10 @@ And although it is anathema to hardcore nodeistas to say this, I was spoiled by 
 
 The purpose of the *ink-strings* library is to gather up the best of the available string libraries and edit them into a single, somewhat
 cohesive whole that runs on server and client. This includes these excellent tools:
-[http://epeli.github.io/underscore.string/](underscore.string)
-[http://ringojs.org](RingoJS)
-[http://www.diveintojavascript.com/projects/javascript-sprintf](sprintf)
-[http://www.onicos.com/staff/iz/amuse/javascript/expert/base64.txt](base64)
++ [http://epeli.github.io/underscore.string/](underscore.string)
++ [http://ringojs.org](RingoJS)
++ [http://www.diveintojavascript.com/projects/javascript-sprintf](sprintf)
++ [http://www.onicos.com/staff/iz/amuse/javascript/expert/base64.txt](base64)
 
 And a few others, see the NOTICES.md file for details on the licenses for the tools being used.
 
@@ -28,22 +28,20 @@ On the web:
 	Copy ...
 	<script src=""></script>
 
-With AMD
-	Copy...
-	var strings = require("ink-strings");
+
 
 ## Documentation ##
 *ink-strings* comes with a pretty big set of methods and a few classes. The document is broken up by category, but all methods
 are published from the main `ink-strings` module.
 
-* [](Generating Strings)
-* [](Base64 Encoding/Decoding)
-* [](Shaping and Manipulating Strings)
-* [](sprintf)
-* [](Interrogating Strings to see what they are made of)
-* [](HTML Tags)
-* [](Binary Strings)
-* [](RegEx Pattern Library)
+* [http://terryweiss.github.io/ink-strings/generators.html](Generating Strings)
+* [http://terryweiss.github.io/ink-strings/base64.html](Base64 Encoding/Decoding)
+* [http://terryweiss.github.io/ink-strings/shape.html](Shaping and Manipulating Strings)
+* [http://terryweiss.github.io/ink-strings/sprintf.html](sprintf)
+* [http://terryweiss.github.io/ink-strings/tests.html](Interrogating Strings to see what they are made of)
+* [http://terryweiss.github.io/ink-strings/html.html](HTML Tags)
+* [http://terryweiss.github.io/ink-strings/binary.html](Binary Strings)
+* [http://terryweiss.github.io/ink-strings/patterns.html](RegEx Pattern Library)
 
 ## License ##
 Permission is hereby granted, free of charge, to any person

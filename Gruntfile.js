@@ -61,6 +61,15 @@ var tasks = {
 				'dist/ink.strings.min.js' : ['src/notices.js', 'dist/ink.strings.js' ]
 			}
 		}
+	},
+	copy: {
+		docs: {
+			files: [
+				{expand:true, cwd: "dox/", src: ['**'], dest: '../strings-dox/'},
+				{src: ['etc/splat.png'], dest: '../strings-dox/etc/splat.png'} // includes files in path and its subdirs
+
+			]
+		}
 	}
 
 };
@@ -72,12 +81,14 @@ module.exports = function ( grunt ) {
 	grunt.loadNpmTasks( "grunt-shell" );
 	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
 	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
+	grunt.loadNpmTasks('grunt-contrib-copy');
 
-	grunt.registerTask( "dox", ["shell:docs"] );
+	grunt.registerTask( "dox", ["shell:docs", "copy:docs"] );
 	grunt.registerTask( "lint", ["jshint"] );
 	grunt.registerTask( "brow", ["shell:browserify"] );
 
 	grunt.registerTask( "build", ["lint", "brow", "uglify"] );
+	grunt.registerTask( "all", ["build", "dox"] );
 
 
 
