@@ -8,7 +8,7 @@ the String object, but none have met all of the needs I have encountered. Also d
 And although it is anathema to hardcore nodeistas to say this, I was spoiled by Ringo's string tools.
 
 The purpose of the *ink-strings* library is to gather up the best of the available string libraries and edit them into a single, somewhat
-cohesive whole that runs on server and client. This includes these excellent tools:
+cohesive whole that runs on server and client. This includes components of each of these excellent tools:
 + [http://epeli.github.io/underscore.string/](underscore.string)
 + [http://ringojs.org](RingoJS)
 + [http://www.diveintojavascript.com/projects/javascript-sprintf](sprintf)
@@ -25,8 +25,13 @@ From node:
 	var strings = require("ink-strings");
 
 On the web:
-	Copy ...
-	<script src=""></script>
+Copy `dist/ink.strings.js` or `dist/ink.strings.min.js` to your assets directory and then load it directly
+
+	<script src="js/ink.strings.js"></script>
+	<script>
+		// all of the methods hang right off of window.ink.strings
+        var goHome = ink.strings.repeat("there's no place like home", 3);
+	</script>
 
 
 
@@ -42,6 +47,14 @@ are published from the main `ink-strings` module.
 * [HTML Tags](http://terryweiss.github.io/ink-strings/html.html)
 * [Binary Strings](http://terryweiss.github.io/ink-strings/binary.html)
 * [RegEx Pattern Library](http://terryweiss.github.io/ink-strings/patterns.html)
+
+## Contributing ##
+Yes! Contribute. Make sure your code looks essentially like the code you see. Document using JSDoc tags.
+
+Make sure you have [grunt-cli](https://github.com/gruntjs/grunt-cli) install globally. To test, you will also need
+[nodeunit](https://github.com/caolan/nodeunit) installed globally. To test:
+
+	nodeunit tests/
 
 ## License ##
 Permission is hereby granted, free of charge, to any person
