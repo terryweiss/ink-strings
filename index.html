@@ -1,34 +1,113 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title> ink-strings Index</title>
+	<meta charset="utf-8">
+	<title>ink-strings Index</title>
 
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <link type="text/css" rel="stylesheet" href="styles/bootstrap.css">
-    <!--<link type="text/css" rel="stylesheet" href="styles/darkstrap-v0.9.0.css">-->
-    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
-    <link type="text/css" rel="stylesheet" href="styles/site.css">
-    <!-- <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css"> -->
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+
+	
+	<link type="text/css" rel="stylesheet" href="styles/site.spacelab.css">
+	
 </head>
 
 <body>
 <div class="container-fluid">
+	<div class="navbar navbar-fixed-top navbar-inverse">
+		<div class="navbar-inner">
+			<a class="brand" href="index.html">ink-strings</a>
+			<ul class="nav">
+				
+				<li class="dropdown">
+					<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="strings.html">ink/strings</a>
+						</li>
+						
+						<li>
+							<a href="base64.html">ink/strings/base64</a>
+						</li>
+						
+						<li>
+							<a href="binary.html">ink/strings/binary</a>
+						</li>
+						
+						<li>
+							<a href="generators.html">ink/strings/generators</a>
+						</li>
+						
+						<li>
+							<a href="html.html">ink/strings/html</a>
+						</li>
+						
+						<li>
+							<a href="patterns.html">ink/strings/patterns</a>
+						</li>
+						
+						<li>
+							<a href="shape.html">ink/strings/shape</a>
+						</li>
+						
+						<li>
+							<a href="sprintf.html">ink/strings/sprintf</a>
+						</li>
+						
+						<li>
+							<a href="types.html">ink/strings/types</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+				<li class="dropdown">
+					<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="binary-Binary.html">Binary</a>
+						</li>
+						
+						<li>
+							<a href="binary-ByteArray.html">ByteArray</a>
+						</li>
+						
+						<li>
+							<a href="binary-ByteString.html">ByteString</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+			</ul>
+		</div>
+	</div>
+
 	<div class="row-fluid">
+
+		
 		<div class="span8">
-			<div id="main">
-
-			    <h1 class="page-title">Index</h1>
-
-			    
+			
+				<div id="main">
+					
 
 
-    
-
-
-    <h3> </h3>
+	
+	<span class="page-title">Index</span>
+	
+	
 
 
 
@@ -38,7 +117,12 @@
 
 
 
-    
+
+
+
+	
+	
+
 
 
 
@@ -46,13 +130,13 @@
     <section>
         <article><h1>ink-strings</h1>
 <p><img src="etc/splat.png" alt="ink strings logo" title="ink!">
-Part of the <em>ink</em> suite of tools</p>
+Part of the <strong>ink</strong> tool suite</p>
 <h2>Motivation</h2>
 <p>JavaScript string support isn't all that and a bag of chips. A number of libraries have been created to overcome the limitation and gaps in
 the String object, but none have met all of the needs I have encountered. Also differing implementations have created some inconsistent results.
 And although it is anathema to hardcore nodeistas to say this, I was spoiled by Ringo's string tools.</p>
-<p>The purpose of the <em>ink-strings</em> library is to gather up the best of the available string libraries and edit them into a single, somewhat
-cohesive whole that runs on server and client. This includes these excellent tools:
+<p>The purpose of the <strong>ink-strings</strong> library is to gather up the best of the available string libraries and edit them into a single, somewhat
+cohesive whole that runs on server and client. This includes components and bit and pieces of each of these excellent tools:
 + <a href="underscore.string"><a href="http://epeli.github.io/underscore.string/">http://epeli.github.io/underscore.string/</a></a>
 + <a href="RingoJS"><a href="http://ringojs.org">http://ringojs.org</a></a>
 + <a href="sprintf"><a href="http://www.diveintojavascript.com/projects/javascript-sprintf">http://www.diveintojavascript.com/projects/javascript-sprintf</a></a>
@@ -64,20 +148,38 @@ cohesive whole that runs on server and client. This includes these excellent too
 <p>From node:
     var strings = require(&quot;ink-strings&quot;);</p>
 <p>On the web:
-    Copy ...
-    &lt;script src=&quot;&quot;&gt;&lt;/script&gt;</p>
+Copy <code>dist/ink.strings.js</code> or <code>dist/ink.strings.min.js</code> to your assets directory and then load it directly</p>
+<pre><code>&lt;script src=&quot;js/ink.strings.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+    // all of the methods hang right off of window.ink.strings
+    var goHome = ink.strings.repeat(&quot;there's no place like home&quot;, 3);
+&lt;/script&gt;</code></pre>
 <h2>Documentation</h2>
-<p><em>ink-strings</em> comes with a pretty big set of methods and a few classes. The document is broken up by category, but all methods
+<p><em>ink-strings</em> comes with a pretty big set of methods and a few classes. The documentation is broken up by category, but all methods
 are published from the main <code>ink-strings</code> module.</p>
 <ul>
-<li>[<a href="http://terryweiss.github.io/ink-strings/generators.html](Generating">http://terryweiss.github.io/ink-strings/generators.html](Generating</a> Strings)</li>
-<li>[<a href="http://terryweiss.github.io/ink-strings/base64.html](Base64">http://terryweiss.github.io/ink-strings/base64.html](Base64</a> Encoding/Decoding)</li>
-<li>[<a href="http://terryweiss.github.io/ink-strings/shape.html](Shaping">http://terryweiss.github.io/ink-strings/shape.html](Shaping</a> and Manipulating Strings)</li>
-<li><a href="sprintf"><a href="http://terryweiss.github.io/ink-strings/sprintf.html">http://terryweiss.github.io/ink-strings/sprintf.html</a></a></li>
-<li>[<a href="http://terryweiss.github.io/ink-strings/tests.html](Interrogating">http://terryweiss.github.io/ink-strings/tests.html](Interrogating</a> Strings to see what they are made of)</li>
-<li>[<a href="http://terryweiss.github.io/ink-strings/html.html](HTML">http://terryweiss.github.io/ink-strings/html.html](HTML</a> Tags)</li>
-<li>[<a href="http://terryweiss.github.io/ink-strings/binary.html](Binary">http://terryweiss.github.io/ink-strings/binary.html](Binary</a> Strings)</li>
-<li>[<a href="http://terryweiss.github.io/ink-strings/patterns.html](RegEx">http://terryweiss.github.io/ink-strings/patterns.html](RegEx</a> Pattern Library)</li>
+<li><a href="http://terryweiss.github.io/ink-strings/generators.html">Generating Strings</a></li>
+<li><a href="http://terryweiss.github.io/ink-strings/base64.html">Base64 Encoding/Decoding</a></li>
+<li><a href="http://terryweiss.github.io/ink-strings/shape.html">Shaping and Manipulating Strings</a></li>
+<li><a href="http://terryweiss.github.io/ink-strings/sprintf.html">sprintf</a></li>
+<li><a href="http://terryweiss.github.io/ink-strings/tests.html">Interrogating Strings to see what they are made of</a></li>
+<li><a href="http://terryweiss.github.io/ink-strings/html.html">HTML Tags</a></li>
+<li><a href="http://terryweiss.github.io/ink-strings/binary.html">Binary Strings</a></li>
+<li><a href="http://terryweiss.github.io/ink-strings/patterns.html">RegEx Pattern Library</a></li>
+</ul>
+<h2>Contributing</h2>
+<p>Yes! Contribute. Make sure your code looks essentially like the code you see. Document using JSDoc tags.</p>
+<p>Make sure you have <a href="https://github.com/gruntjs/grunt-cli">grunt-cli</a> installed globally. To test, you will also need
+<a href="https://github.com/caolan/nodeunit">nodeunit</a> installed globally. To test:</p>
+<pre><code>nodeunit tests/</code></pre>
+<h2>ink tools</h2>
+<p>Also see</p>
+<ul>
+<li><a href="https://github.com/terryweiss/ink-probe">ink-probe</a></li>
+<li><a href="https://github.com/terryweiss/ink-strings">ink-strings</a></li>
+<li>ink-collector (<a href="https://github.com/terryweiss/ink-collector">https://github.com/terryweiss/ink-collector</a>)</li>
+<li>ink-scene (coming soon)</li>
+<li>ink-dox (coming, but a long way off yet)</li>
 </ul>
 <h2>License</h2>
 <p>Permission is hereby granted, free of charge, to any person
@@ -115,46 +217,83 @@ limitations under the License.</p></article>
 
 
 
+
+				</div>
+
+				<div class="clearfix"></div>
+				<footer>
+					
+					See NOTICE.md for licenses
+					<br />
+					
+					
+		<span class="copyright">
+		ink-strings Copyright contributers to ink-strings, base64, Helma, RingoJS, sprintf projects. 
+		</span>
+					<br />
+					
+		<span class="jsdoc-message">
+		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a>
+		on Thu May 23 2013 16:47:08 GMT-0400 (EDT) using the <a href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
+		</span>
+				</footer>
 			</div>
+
+			
+			<div class="span3">
+				<div id="toc"></div>
+			</div>
+			
+			<br clear="both">
 		</div>
-        <div class="span4">
-			<nav>
-			    <div class='well'><span class="lead"><a href="index.html">Index</a></span><div class='tabbable tabs-left'><ul class='nav nav-tabs'><li><a href='#nav-modules' data-toggle='tab'>Modules</a></li><li><a href='#nav-classes'  data-toggle='tab'>Classes</a></li></ul><div class='tab-content'><div id='nav-modules' class='tab-pane'><ul class='nav nav-list'><li><a href="strings.html">ink/strings</a></li><li><a href="base64.html">ink/strings/base64</a></li><li><a href="binary.html">ink/strings/binary</a></li><li><a href="generators.html">ink/strings/generators</a></li><li><a href="html.html">ink/strings/html</a></li><li><a href="patterns.html">ink/strings/patterns</a></li><li><a href="shape.html">ink/strings/shape</a></li><li><a href="sprintf.html">ink/strings/sprintf</a></li><li><a href="types.html">ink/strings/types</a></li></ul></div><div id='nav-classes' class='tab-pane'><ul class='nav nav-list'><li><a href="binary-Binary.html">Binary</a></li><li><a href="binary-ByteArray.html">ByteArray</a></li><li><a href="binary-ByteString.html">ByteString</a></li></ul></div></div></div></div>
-			</nav>
-		</div>
+
 	</div>
-</div>
-<br clear="both">
+	<script src="scripts/prettify/prettify.js"></script>
+	<script src="scripts/prettify/lang-css.js"></script>
+	<script src="scripts/jquery.min.js"></script>
+	<script src="scripts/bootstrap-dropdown.js"></script>
+	<script src="scripts/toc.js"></script>
 
-<footer>
-	<small>Copyright &copy; 2013 Terry Weiss. All rights reserved.</small>
+	<script> prettyPrint(); </script>
 
-</footer>
+	<script>
+		$( function () {
+			$( "#toc" ).toc( {
+				selectors   : "h1,h2,h3,h4",
+				showAndHide : false,
+				scrollTo    : 60
+			} );
+			$("#toc>ul" ).addClass("nav nav-pills nav-stacked") ;
+			$("#main span[id^='toc']" ).addClass("toc-shim") ;
+		} );
+	</script>
 
+	
+	<script>
+		$( function () {
+			$( "dt h4.name" ).each( function () {
+				var $this = $( this );
+				var icon = $( "<i/>" ).addClass( "icon-plus-sign" ).addClass( "pull-right" ).addClass( "icon-white" );
+				var dt = $this.parents( "dt" );
+				var children = dt.next( "dd" );
 
-    <script src="scripts/prettify/prettify.js"> </script>
-    <script src="scripts/prettify/lang-css.js"> </script>
-    <script src="scripts/jquery.min.js"> </script>
-    <script src="scripts/bootstrap-tab.js"> </script>
-    <script src="scripts/URI.js"> </script>
+				$this.append( icon ).css( {cursor : "pointer"} );
+				$this.addClass( "member-collapsed" ).addClass( "member" );
 
-    <script>
-        prettyPrint();
-    </script>
-    <script>
-    $(document).ready(function(){
-         var uri = URI(window.location.href);
-         var filename = uri.filename();
-         var link = $(".nav li>a[href='" + filename + "']");
-
-         if (link.length > 0){
-           link.parents("li:first").addClass("active");
-           var paneid = link.parents(".tab-pane").addClass("active").attr("id");
-
-           $(".nav-tabs li>a[href='#"+paneid+"']").parents("li:first").addClass("active");
-         }
-    });
-    </script>
+				children.hide();
+				$this.toggle( function () {
+					icon.addClass( "icon-minus-sign" ).removeClass( "icon-plus-sign" ).removeClass( "icon-white" );
+					$this.addClass( "member-open" ).removeClass( "member-collapsed" );
+					children.slideDown();
+				}, function () {
+					icon.addClass( "icon-plus-sign" ).removeClass( "icon-minus-sign" ).addClass( "icon-white" );
+					$this.addClass( "member-collapsed" ).removeClass( "member-open" );
+					children.slideUp();
+				} );
+			} );
+		} );
+	</script>
+	
 
 </body>
 </html>
