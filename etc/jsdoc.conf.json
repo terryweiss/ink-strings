@@ -1,0 +1,25 @@
+{
+	"tags"      : {
+		"allowUnknownTags" : true
+	},
+	"plugins"   : ["plugins/markdown"],
+	"templates" : {
+		"cleverLinks"     : false,
+		"monospaceLinks"  : false,
+		"default"         : {
+			"outputSourceFiles" : true
+		},
+		"systemName"      : "ink-strings",
+		"footer"          : "See NOTICE.md for licenses",
+		"copyright"       : "ink-strings Copyright contributers to ink-strings, base64, Helma, RingoJS, sprintf projects. ",
+		"navType"         : "vertical",
+		"theme"           : "spacelab",
+		"linenums"        : true,
+		"collapseSymbols" : true,
+		"inverseNav"      : true
+	},
+	"markdown"  : {
+		"parser"   : "gfm",
+		"hardwrap" : true
+	}
+}

@@ -6,8 +6,8 @@ var jsdocPublicApi = {
 	src       : ["./src", "./README.md", "./index.js"],
 	dest      : "./dox",
 	tutorials : "./",
-	template  : "./etc/doc-template",
-	config    : "./etc/doc-template/jsdoc.conf.json",
+	template  : "../docstrap/template",
+	config    : "./etc/jsdoc.conf.json",
 	options   : "--recurse --lenient --verbose"
 };
 
