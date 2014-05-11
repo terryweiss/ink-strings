@@ -50,7 +50,7 @@ exports.CAPITALSPATTERN = /([A-Z]+)/g;
  * Tests for breaking characters like -, _ etc.
  * @type {RegExp}
  */
-exports.SEPARATORS = /[\-_.\s](.)/g;
+exports.SEPARATORS = /[\-_.:\s](.)/g;
 
 /**
  * Tests for line break characters

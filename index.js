@@ -8,14 +8,14 @@
  */
 
 var sys = require( "lodash" );
-var base64 = require( "./src/base64" );
-var binary = require( "./src/binary" );
-var generators = require( "./src/generators" );
-var html = require( "./src/html" );
-var patterns = require( "./src/patterns" );
-var shape = require( "./src/shape" );
-var sprintf = require( "./src/sprintf" );
-var tests = require( "./src/tests" );
+var base64 = require( "./base64" );
+var binary = require( "./binary" );
+var generators = require( "./generators" );
+var html = require( "./html" );
+var patterns = require( "./patterns" );
+var shape = require( "./shape" );
+var sprintf = require( "./sprintf" );
+var tests = require( "./tests" );
 
 sys.extend( exports, base64, binary, generators, html, patterns, shape, sprintf, tests );
 

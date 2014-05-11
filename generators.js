@@ -107,7 +107,7 @@ exports.random = function ( len, mode ) {
 
 /**
  * Creates a random string, in this case a UUID-like thingy. I call it a Uniquely Interesting ID. It is *not* globally unique
- * or even really unique. Just random and with a known format. Also available as uiid
+ * or even really unique. Just pseudo-random and with a known format. Also available as `uiid`
  *
  * @returns {string}
  * @method
